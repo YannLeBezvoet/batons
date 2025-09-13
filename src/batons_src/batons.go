@@ -4,29 +4,60 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/nsf/termbox-go"
+	"github.com/gdamore/tcell"
 )
 
 func main() {
-	// Initialisation de termbox
-	err := termbox.Init()
+	// Initialisation de l’écran
+	screen, err := tcell.NewScreen()
 	if err != nil {
 		panic(err)
 	}
-	defer termbox.Close()
-	for {
-		termbox.Clear(termbox.ColorDefault, termbox.ColorDefault)
-		text := fmt.Sprintf("Batons!")
-		for i, r := range text {
-			termbox.SetCell(i+2, 2, r, termbox.ColorGreen, termbox.ColorDefault)
-		}
-		termbox.Flush()
-		switch ev := termbox.PollEvent(); ev.Type {
-		case termbox.EventKey:
-			if ev.Ch == 'q' || ev.Key == termbox.KeyEsc {
-				return
+	if err := screen.Init(); err != nil {
+		panic(err)
+	}
+	defer screen.Fini()
+
+	quit := make(chan struct{})
+
+	// Goroutine pour écouter les événements clavier
+	go func() {
+		for {
+			ev := screen.PollEvent()
+			switch ev := ev.(type) {
+			case *tcell.EventKey:
+				if ev.Key() == tcell.KeyEscape || ev.Rune() == 'q' {
+					close(quit)
+					return
+				}
+			case *tcell.EventResize:
+				screen.Sync()
 			}
 		}
-		time.After(50 * time.Millisecond)
+	}()
+
+	for {
+		select {
+		case <-quit:
+			return
+		default:
+			// Efface l’écran
+			screen.Clear()
+
+			// Prépare le texte
+			text := fmt.Sprintf("Battons, appuyer sur 'q' ou 'ESC' pour quitter. Heure: %s", time.Now().Format("15:04:05"))
+
+			// Affiche le texte caractère par caractère
+			style := tcell.StyleDefault.Foreground(tcell.ColorGreen)
+			for i, r := range text {
+				screen.SetContent(i+2, 2, r, nil, style)
+			}
+
+			// Affiche à l’écran
+			screen.Show()
+
+			// Attente 50 milisecondes
+			time.Sleep(50 * time.Millisecond)
+		}
 	}
 }
