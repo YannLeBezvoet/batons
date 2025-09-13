@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/nsf/termbox-go"
 )
@@ -20,5 +21,12 @@ func main() {
 			termbox.SetCell(i+2, 2, r, termbox.ColorGreen, termbox.ColorDefault)
 		}
 		termbox.Flush()
+		switch ev := termbox.PollEvent(); ev.Type {
+		case termbox.EventKey:
+			if ev.Ch == 'q' || ev.Key == termbox.KeyEsc {
+				return
+			}
+		}
+		time.After(50 * time.Millisecond)
 	}
 }
