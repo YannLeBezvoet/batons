@@ -38,6 +38,21 @@ func Menu(screen tcell.Screen) {
 						selected = len(menu_buttons) - 1
 					}
 				}
+				if ev.Key() == tcell.KeyEnter || ev.Rune() == ' ' {
+					switch selected {
+					case 0:
+						// Start
+						// Juste un message pour l’instant
+						text = "Game Started! Press 'q' to quit."
+					case 1:
+						// Options
+						text = "Options Selected! Press 'q' to quit."
+					case 2:
+						// Quit
+						close(quit)
+						return
+					}
+				}
 			case *tcell.EventResize:
 				screen.Sync()
 			}
