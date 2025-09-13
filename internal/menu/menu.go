@@ -10,10 +10,6 @@ import (
 func Menu(screen tcell.Screen) {
 	text := "Batons !"
 	// Obtenir la taille de l’écran
-	width, height := screen.Size()
-	// Calculer la position pour centrer le texte
-	x := (width - len(text)) / 2
-	y := height / 2
 	quit := make(chan struct{})
 	// Style simple (blanc sur noir)
 	style := tcell.StyleDefault.Foreground(tcell.ColorWhite).Background(tcell.ColorBlack)
@@ -39,6 +35,10 @@ func Menu(screen tcell.Screen) {
 		case <-quit:
 			return
 		default:
+			width, height := screen.Size()
+			// Calculer la position pour centrer le texte
+			x := (width - len(text)) / 2
+			y := height / 2
 			// Efface l’écran
 			screen.Clear()
 
@@ -48,6 +48,9 @@ func Menu(screen tcell.Screen) {
 			// Affiche le texte caractère par caractère
 			for i, r := range text {
 				screen.SetContent(i+x, y, r, nil, style)
+			}
+			for i := range len(text) + 2 {
+				screen.SetContent(i+x-1, y+2, '=', nil, style)
 			}
 
 			// Affiche à l’écran
