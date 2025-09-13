@@ -8,7 +8,8 @@ import (
 )
 
 func Menu(screen tcell.Screen) {
-	text := "Batons !"
+	text := "Batons"
+	menu_buttons := []string{"Start", "Options", "Quit"}
 	// Obtenir la taille de l’écran
 	quit := make(chan struct{})
 	// Style simple (blanc sur noir)
@@ -50,9 +51,17 @@ func Menu(screen tcell.Screen) {
 				screen.SetContent(i+x, y, r, nil, style)
 			}
 			for i := range len(text) + 2 {
-				screen.SetContent(i+x-1, y+2, '=', nil, style)
+				screen.SetContent(i+x-1, y+1, '=', nil, style)
 			}
-
+			for i, r := range menu_buttons[0] {
+				screen.SetContent(i+x, y+3, r, nil, style)
+			}
+			for i, r := range menu_buttons[1] {
+				screen.SetContent(i+x, y+4, r, nil, style)
+			}
+			for i, r := range menu_buttons[2] {
+				screen.SetContent(i+x, y+5, r, nil, style)
+			}
 			// Affiche à l’écran
 			screen.Show()
 
