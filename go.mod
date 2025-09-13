@@ -4,7 +4,7 @@ go 1.24.6
 
 require (
 	github.com/gdamore/encoding v1.0.1 // indirect
-	github.com/gdamore/tcell v1.4.0 // indirect
+	github.com/gdamore/tcell v1.4.0
 	github.com/lucasb-eyer/go-colorful v1.3.0 // indirect
 	github.com/mattn/go-runewidth v0.0.16 // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
