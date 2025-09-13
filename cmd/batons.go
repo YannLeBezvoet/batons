@@ -19,6 +19,7 @@ const (
 )
 
 func main() {
+	selected := 0
 	screen, err := tcell.NewScreen()
 	if err != nil {
 		log.Fatalf("%+v", err)
@@ -36,7 +37,7 @@ func main() {
 
 		switch state {
 		case StateMenu:
-			menu.Menu(screen)
+			menu.Menu(screen, selected)
 		case StateGame:
 			game.Game(screen)
 		}
@@ -46,12 +47,13 @@ func main() {
 		ev := screen.PollEvent()
 		switch ev := ev.(type) {
 		case *tcell.EventKey:
-			if ev.Key() == tcell.KeyEscape {
-				return
+			if state == StateMenu {
+				selected = menu.MenukeyHandler(ev.Key(), selected, 3)
 			}
 		case *tcell.EventResize:
 			screen.Sync()
 		}
+
 		elapsed := time.Since(start)
 		if elapsed < 50*time.Millisecond {
 			time.Sleep(50*time.Millisecond - elapsed)
