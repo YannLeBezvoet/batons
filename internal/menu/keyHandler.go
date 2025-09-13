@@ -4,11 +4,21 @@ import (
 	"github.com/gdamore/tcell"
 )
 
-func MenukeyHandler(key tcell.Key, selected int, menuSize int) int {
+const (
+	None = iota
+	Start
+	Options
+	Quit
+)
+
+type MenuAction struct {
+	Selected int
+	Action   int
+}
+
+func MenukeyHandler(key tcell.Key, selected int, menuSize int) MenuAction {
 	if key == tcell.KeyEscape {
-		quit := make(chan struct{})
-		close(quit)
-		return 0
+		return MenuAction{Selected: selected, Action: Quit}
 	}
 	if key == tcell.KeyDown {
 		selected = selected + 1
@@ -24,11 +34,18 @@ func MenukeyHandler(key tcell.Key, selected int, menuSize int) int {
 	}
 	if key == tcell.KeyEnter || key == ' ' {
 		switch selected {
+		case 0:
+			// Start
+			return MenuAction{Selected: selected, Action: Start}
+		case 1:
+			// Options
+			return MenuAction{Selected: selected, Action: Options}
 		case 2:
 			// Quit
 			quit := make(chan struct{})
 			close(quit)
+			return MenuAction{Selected: selected, Action: Quit}
 		}
 	}
-	return selected
+	return MenuAction{Selected: selected, Action: None}
 }

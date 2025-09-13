@@ -19,7 +19,7 @@ const (
 )
 
 func main() {
-	selected := 0
+	menuAction := menu.MenuAction{Selected: 0, Action: menu.None}
 	screen, err := tcell.NewScreen()
 	if err != nil {
 		log.Fatalf("%+v", err)
@@ -37,7 +37,7 @@ func main() {
 
 		switch state {
 		case StateMenu:
-			menu.Menu(screen, selected)
+			menu.Menu(screen, menuAction.Selected)
 		case StateGame:
 			game.Game(screen)
 		}
@@ -48,7 +48,7 @@ func main() {
 		switch ev := ev.(type) {
 		case *tcell.EventKey:
 			if state == StateMenu {
-				selected = menu.MenukeyHandler(ev.Key(), selected, 3)
+				menuAction = menu.MenukeyHandler(ev.Key(), menuAction.Selected, 3)
 			}
 		case *tcell.EventResize:
 			screen.Sync()
