@@ -49,6 +49,15 @@ func main() {
 		case *tcell.EventKey:
 			if state == StateMenu {
 				menuAction = menu.MenukeyHandler(ev.Key(), menuAction.Selected, 3)
+				if menuAction.Action == menu.Start {
+					state = StateGame
+					menuAction = menu.MenuAction{Selected: 0, Action: menu.None}
+				}
+				if menuAction.Action == menu.Quit {
+					quit := make(chan struct{})
+					close(quit)
+					return
+				}
 			}
 		case *tcell.EventResize:
 			screen.Sync()
