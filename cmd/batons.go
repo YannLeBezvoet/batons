@@ -64,6 +64,7 @@ func main() {
 				if gameAction == 1 {
 					state = StateMenu
 					menuAction = menu.MenuAction{Selected: 0, Action: menu.None}
+					gameAction = 0
 				}
 			}
 		case *tcell.EventResize:
