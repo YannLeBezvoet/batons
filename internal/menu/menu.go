@@ -1,13 +1,11 @@
 package menu
 
 import (
-	"strconv"
-
 	"github.com/gdamore/tcell"
 )
 
 func Menu(screen tcell.Screen, selected int) {
-	text := "Batons " + strconv.Itoa(selected)
+	text := "Batons"
 	menu_buttons := []string{"Start", "Options", "Quit"}
 	// Style simple (blanc sur noir)
 	style := tcell.StyleDefault.Foreground(tcell.ColorWhite).Background(tcell.ColorBlack)
