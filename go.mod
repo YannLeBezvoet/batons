@@ -1,4 +1,4 @@
-module batons_src/batons.go
+module batons/batons.go
 
 go 1.24.6
 
