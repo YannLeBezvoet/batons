@@ -59,6 +59,13 @@ func main() {
 					return
 				}
 			}
+			if state == StateGame {
+				gameAction := game.GameKeyHandler(ev.Key())
+				if gameAction == 1 {
+					state = StateMenu
+					menuAction = menu.MenuAction{Selected: 0, Action: menu.None}
+				}
+			}
 		case *tcell.EventResize:
 			screen.Sync()
 		}
