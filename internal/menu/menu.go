@@ -8,9 +8,16 @@ import (
 )
 
 func Menu(screen tcell.Screen) {
-
+	text := "Batons !"
+	// Obtenir la taille de l’écran
+	width, height := screen.Size()
+	// Calculer la position pour centrer le texte
+	x := (width - len(text)) / 2
+	y := height / 2
 	quit := make(chan struct{})
-
+	// Style simple (blanc sur noir)
+	style := tcell.StyleDefault.Foreground(tcell.ColorWhite).Background(tcell.ColorBlack)
+	screen.SetStyle(style)
 	// Goroutine pour écouter les événements clavier
 	go func() {
 		for {
@@ -36,12 +43,11 @@ func Menu(screen tcell.Screen) {
 			screen.Clear()
 
 			// Prépare le texte
-			text := fmt.Sprintf("Batons, appuyer sur 'q' ou 'ESC' pour quitter. Heure: %s", time.Now().Format("15:04:05"))
+			text := fmt.Sprintf("%s", text)
 
 			// Affiche le texte caractère par caractère
-			style := tcell.StyleDefault.Foreground(tcell.ColorGreen)
 			for i, r := range text {
-				screen.SetContent(i+2, 2, r, nil, style)
+				screen.SetContent(i+x, y, r, nil, style)
 			}
 
 			// Affiche à l’écran
