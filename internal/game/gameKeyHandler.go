@@ -26,25 +26,25 @@ func GameKeyHandler(key tcell.Key, carac rune, gameData *GameStruct) int {
 	if key == tcell.KeyUp {
 		if checkDelay(gameData.YCameraTime, delay) {
 			gameData.YCameraTime = time.Now()
-			gameData.YCamera++
+			gameData.YCamera--
 		}
 	}
 	if key == tcell.KeyDown {
 		if checkDelay(gameData.YCameraTime, delay) {
 			gameData.YCameraTime = time.Now()
-			gameData.YCamera--
+			gameData.YCamera++
 		}
 	}
 	if carac == 'z' || carac == 'Z' {
 		if checkDelay(gameData.YCursorTime, delay) {
 			gameData.YCursorTime = time.Now()
-			gameData.YCursor++
+			gameData.YCursor--
 		}
 	}
 	if carac == 's' || carac == 'S' {
 		if checkDelay(gameData.YCursorTime, delay) {
 			gameData.YCursorTime = time.Now()
-			gameData.YCursor--
+			gameData.YCursor++
 		}
 	}
 	if carac == 'q' || carac == 'Q' {
