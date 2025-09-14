@@ -33,5 +33,10 @@ func OptionsKeyHandler(key tcell.Key, carac rune, optionsData *OptionsStruct, se
 			selected = menuSize - 1
 		}
 	}
+	if key == tcell.KeyEnter || carac == ' ' {
+		if selected == menuSize-1 { // Back
+			return OptionsAction{Selected: selected, Action: Quit}
+		}
+	} // azerty default
 	return OptionsAction{Selected: selected, Action: 0}
 }
