@@ -44,33 +44,7 @@ func main() {
 		}
 
 		screen.Show()
-
-		ev := screen.PollEvent()
-		switch ev := ev.(type) {
-		case *tcell.EventKey:
-			if state == StateMenu {
-				menuAction = menu.MenukeyHandler(ev.Key(), menuAction.Selected, 3)
-				if menuAction.Action == menu.Start {
-					state = StateGame
-					menuAction = menu.MenuAction{Selected: 0, Action: menu.None}
-				}
-				if menuAction.Action == menu.Quit {
-					quit := make(chan struct{})
-					close(quit)
-					return
-				}
-			}
-			if state == StateGame {
-				gameAction := game.GameKeyHandler(ev.Key(), &gameData)
-				if gameAction == 1 {
-					state = StateMenu
-					menuAction = menu.MenuAction{Selected: 0, Action: menu.None}
-					gameAction = 0
-				}
-			}
-		case *tcell.EventResize:
-			screen.Sync()
-		}
+		go eventListener(screen, &state, &menuAction, &gameData)
 
 		elapsed := time.Since(start)
 		if elapsed < 50*time.Millisecond {
@@ -79,14 +53,31 @@ func main() {
 	}
 }
 
-func flushKeyEvents(s tcell.Screen) {
-	for s.HasPendingEvent() {
-		ev := s.PollEvent()
-		if _, ok := ev.(*tcell.EventKey); ok {
-			// on ignore/efface l'événement
-			continue
+func eventListener(screen tcell.Screen, state *AppState, menuAction *menu.MenuAction, gameData *game.GameStruct) {
+	ev := screen.PollEvent()
+	switch ev := ev.(type) {
+	case *tcell.EventKey:
+		if *state == StateMenu {
+			*menuAction = menu.MenukeyHandler(ev.Key(), menuAction.Selected, 3)
+			if menuAction.Action == menu.Start {
+				*state = StateGame
+				*menuAction = menu.MenuAction{Selected: 0, Action: menu.None}
+			}
+			if menuAction.Action == menu.Quit {
+				quit := make(chan struct{})
+				close(quit)
+				return
+			}
 		}
-		// si c'est un autre type d'événement (resize, mouse...), tu peux le remettre en file
-		// mais souvent on les ignore pas
+		if *state == StateGame {
+			gameAction := game.GameKeyHandler(ev.Key(), gameData)
+			if gameAction == 1 {
+				*state = StateMenu
+				*menuAction = menu.MenuAction{Selected: 0, Action: menu.None}
+				gameAction = 0
+			}
+		}
+	case *tcell.EventResize:
+		screen.Sync()
 	}
 }
