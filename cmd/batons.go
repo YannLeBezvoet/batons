@@ -20,7 +20,7 @@ const (
 
 func main() {
 	menuAction := menu.MenuAction{Selected: 0, Action: menu.None}
-	gameData := game.GameStruct{X: 0, Y: 0}
+	gameData := game.GameStruct{XCamera: 0, YCamera: 0, XCursor: 1, YCursor: 1}
 	screen, err := tcell.NewScreen()
 
 	if err != nil {
@@ -71,7 +71,7 @@ func eventListener(screen tcell.Screen, state *AppState, menuAction *menu.MenuAc
 			}
 		}
 		if *state == StateGame {
-			gameAction := game.GameKeyHandler(ev.Key(), gameData)
+			gameAction := game.GameKeyHandler(ev.Key(), ev.Rune(), gameData)
 			if gameAction == 1 {
 				*state = StateMenu
 				*menuAction = menu.MenuAction{Selected: 0, Action: menu.None}
