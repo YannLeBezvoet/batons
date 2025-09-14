@@ -91,7 +91,7 @@ func eventListener(screen tcell.Screen, state *AppState, menuAction *menu.MenuAc
 				if optionsAction.Action == options.Quit {
 					*state = StateMenu
 					*menuAction = menu.MenuAction{Selected: 0, Action: menu.None}
-					optionsAction.Action = options.None
+					*optionsAction = options.OptionsAction{Selected: 0, Action: options.None}
 				}
 			}
 		case *tcell.EventResize:
