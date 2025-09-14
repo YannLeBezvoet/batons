@@ -28,6 +28,10 @@ func Options(screen tcell.Screen, selected int) {
 	draw(screen, "=========", x-1, y+1, false)
 	indicationText := "Use arrow keys to navigate and Enter to select"
 	draw(screen, indicationText, (width-len(indicationText))/2, y+2, false)
+	for i, button := range menu_buttons {
+		isSelected := i == selected
+		draw(screen, button, x, y+3+i, isSelected)
+	}
 }
 
 func draw(screen tcell.Screen, text string, x int, y int, isSelected bool) {

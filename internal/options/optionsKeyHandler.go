@@ -6,10 +6,32 @@ import (
 	"github.com/gdamore/tcell/v2"
 )
 
-func OptionsKeyHandler(key tcell.Key, carac rune, optionsData *OptionsStruct) int {
+type optionsAction struct {
+	Selected int
+	Action   int
+}
+
+const (
+	None = iota
+	Quit
+)
+
+func OptionsKeyHandler(key tcell.Key, carac rune, optionsData *OptionsStruct, selected int, menuSize int) optionsAction {
 	const delay = 200 * time.Millisecond // 100ms
 	if key == tcell.KeyEscape {
-		return 1
+		return optionsAction{Selected: 0, Action: Quit}
 	}
-	return 0
+	if key == tcell.KeyDown {
+		selected = selected + 1
+		if selected >= menuSize {
+			selected = 0
+		}
+	}
+	if key == tcell.KeyUp {
+		selected = selected - 1
+		if selected < 0 {
+			selected = menuSize - 1
+		}
+	}
+	return optionsAction{Selected: selected, Action: 0}
 }

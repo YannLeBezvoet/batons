@@ -85,7 +85,7 @@ func eventListener(screen tcell.Screen, state *AppState, menuAction *menu.MenuAc
 			}
 		}
 		if *state == StateOptions {
-			optionsAction := options.OptionsKeyHandler(ev.Key(), ev.Rune(), nil)
+			optionsAction := options.OptionsKeyHandler(ev.Key(), ev.Rune(), nil, menuAction.Selected, 4).Action
 			if optionsAction == 1 {
 				*state = StateMenu
 				*menuAction = menu.MenuAction{Selected: 0, Action: menu.None}
