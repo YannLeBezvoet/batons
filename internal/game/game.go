@@ -4,7 +4,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/gdamore/tcell"
+	"github.com/gdamore/tcell/v2"
 )
 
 func Game(screen tcell.Screen, gameData GameStruct) {

@@ -1,22 +1,44 @@
 package game
 
-import "github.com/gdamore/tcell"
+import (
+	"time"
+
+	"github.com/gdamore/tcell/v2"
+)
 
 func GameKeyHandler(key tcell.Key, gameData *GameStruct) int {
+	const delay = 200 * time.Millisecond // 100ms
+
 	if key == tcell.KeyEscape {
 		return 1
 	}
 	if key == tcell.KeyLeft {
-		gameData.X--
+		if checkDelay(gameData.XTime, delay) {
+			gameData.XTime = time.Now()
+			gameData.X--
+		}
 	}
 	if key == tcell.KeyRight {
-		gameData.X++
+		if checkDelay(gameData.XTime, delay) {
+			gameData.XTime = time.Now()
+			gameData.X++
+		}
 	}
 	if key == tcell.KeyUp {
-		gameData.Y--
+		if checkDelay(gameData.YTime, delay) {
+			gameData.YTime = time.Now()
+			gameData.Y--
+		}
 	}
 	if key == tcell.KeyDown {
-		gameData.Y++
+		if checkDelay(gameData.YTime, delay) {
+			gameData.YTime = time.Now()
+			gameData.Y++
+		}
 	}
 	return 0
+}
+
+func checkDelay(lastTime time.Time, delay time.Duration) bool {
+	return time.Since(lastTime) > delay
 }

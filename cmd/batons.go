@@ -7,7 +7,7 @@ import (
 	"batons/internal/game"
 	"batons/internal/menu"
 
-	"github.com/gdamore/tcell"
+	"github.com/gdamore/tcell/v2"
 )
 
 type AppState int
@@ -76,5 +76,17 @@ func main() {
 		if elapsed < 50*time.Millisecond {
 			time.Sleep(50*time.Millisecond - elapsed)
 		}
+	}
+}
+
+func flushKeyEvents(s tcell.Screen) {
+	for s.HasPendingEvent() {
+		ev := s.PollEvent()
+		if _, ok := ev.(*tcell.EventKey); ok {
+			// on ignore/efface l'événement
+			continue
+		}
+		// si c'est un autre type d'événement (resize, mouse...), tu peux le remettre en file
+		// mais souvent on les ignore pas
 	}
 }
