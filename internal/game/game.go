@@ -8,7 +8,7 @@ import (
 )
 
 func Game(screen tcell.Screen, gameData GameStruct) {
-	text := "x: " + strconv.Itoa(gameData.X) + " y: " + strconv.Itoa(gameData.Y)
+	text := "x: " + strconv.Itoa(gameData.XCamera) + " y: " + strconv.Itoa(gameData.YCamera)
 	// Style simple (blanc sur noir)
 	style := tcell.StyleDefault.Foreground(tcell.ColorWhite).Background(tcell.ColorBlack)
 	screen.SetStyle(style)

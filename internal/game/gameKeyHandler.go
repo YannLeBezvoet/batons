@@ -13,27 +13,27 @@ func GameKeyHandler(key tcell.Key, gameData *GameStruct) int {
 		return 1
 	}
 	if key == tcell.KeyLeft {
-		if checkDelay(gameData.XTime, delay) {
-			gameData.XTime = time.Now()
-			gameData.X--
+		if checkDelay(gameData.XCameraTime, delay) {
+			gameData.XCameraTime = time.Now()
+			gameData.XCamera--
 		}
 	}
 	if key == tcell.KeyRight {
-		if checkDelay(gameData.XTime, delay) {
-			gameData.XTime = time.Now()
-			gameData.X++
+		if checkDelay(gameData.XCameraTime, delay) {
+			gameData.XCameraTime = time.Now()
+			gameData.XCamera++
 		}
 	}
 	if key == tcell.KeyUp {
-		if checkDelay(gameData.YTime, delay) {
-			gameData.YTime = time.Now()
-			gameData.Y--
+		if checkDelay(gameData.YCameraTime, delay) {
+			gameData.YCameraTime = time.Now()
+			gameData.YCamera--
 		}
 	}
 	if key == tcell.KeyDown {
-		if checkDelay(gameData.YTime, delay) {
-			gameData.YTime = time.Now()
-			gameData.Y++
+		if checkDelay(gameData.YCameraTime, delay) {
+			gameData.YCameraTime = time.Now()
+			gameData.YCamera++
 		}
 	}
 	return 0

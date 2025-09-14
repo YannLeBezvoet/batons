@@ -20,7 +20,7 @@ const (
 
 func main() {
 	menuAction := menu.MenuAction{Selected: 0, Action: menu.None}
-	gameData := game.GameStruct{X: 0, Y: 0}
+	gameData := game.GameStruct{XCamera: 0, YCamera: 0}
 	screen, err := tcell.NewScreen()
 
 	if err != nil {
