@@ -6,6 +6,7 @@ import (
 
 	"batons/internal/game"
 	"batons/internal/menu"
+	"batons/internal/options"
 
 	"github.com/gdamore/tcell/v2"
 )
@@ -42,6 +43,8 @@ func main() {
 			menu.Menu(screen, menuAction.Selected)
 		case StateGame:
 			game.Game(screen, gameData)
+		case StateOptions:
+			options.Options(screen, menuAction.Selected)
 		}
 		go eventListener(screen, &state, &menuAction, &gameData)
 
@@ -68,6 +71,9 @@ func eventListener(screen tcell.Screen, state *AppState, menuAction *menu.MenuAc
 			if menuAction.Action == menu.Start {
 				*state = StateGame
 				*menuAction = menu.MenuAction{Selected: 0, Action: menu.None}
+			} else if menuAction.Action == menu.Options {
+				*state = StateOptions
+				*menuAction = menu.MenuAction{Selected: 0, Action: menu.None}
 			}
 		}
 		if *state == StateGame {
@@ -76,6 +82,14 @@ func eventListener(screen tcell.Screen, state *AppState, menuAction *menu.MenuAc
 				*state = StateMenu
 				*menuAction = menu.MenuAction{Selected: 0, Action: menu.None}
 				gameAction = 0
+			}
+		}
+		if *state == StateOptions {
+			optionsAction := options.OptionsKeyHandler(ev.Key(), ev.Rune(), nil)
+			if optionsAction == 1 {
+				*state = StateMenu
+				*menuAction = menu.MenuAction{Selected: 0, Action: menu.None}
+				optionsAction = 0
 			}
 		}
 	case *tcell.EventResize:
