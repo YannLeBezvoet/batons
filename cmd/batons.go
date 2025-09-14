@@ -20,6 +20,7 @@ const (
 
 func main() {
 	menuAction := menu.MenuAction{Selected: 0, Action: menu.None}
+	gameData := game.GameStruct{X: 0, Y: 0}
 	screen, err := tcell.NewScreen()
 	if err != nil {
 		log.Fatalf("%+v", err)
@@ -39,7 +40,7 @@ func main() {
 		case StateMenu:
 			menu.Menu(screen, menuAction.Selected)
 		case StateGame:
-			game.Game(screen)
+			game.Game(screen, gameData)
 		}
 
 		screen.Show()
@@ -60,7 +61,7 @@ func main() {
 				}
 			}
 			if state == StateGame {
-				gameAction := game.GameKeyHandler(ev.Key())
+				gameAction := game.GameKeyHandler(ev.Key(), gameData)
 				if gameAction == 1 {
 					state = StateMenu
 					menuAction = menu.MenuAction{Selected: 0, Action: menu.None}

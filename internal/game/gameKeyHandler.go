@@ -2,7 +2,7 @@ package game
 
 import "github.com/gdamore/tcell"
 
-func GameKeyHandler(key tcell.Key) int {
+func GameKeyHandler(key tcell.Key, gameData GameStruct) int {
 	if key == tcell.KeyEscape {
 		return 1
 	}

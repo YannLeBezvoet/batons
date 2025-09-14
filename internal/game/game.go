@@ -7,10 +7,8 @@ import (
 	"github.com/gdamore/tcell"
 )
 
-func Game(screen tcell.Screen) {
-	x := 0
-	y := 0
-	text := "x: " + strconv.Itoa(x) + " y: " + strconv.Itoa(y)
+func Game(screen tcell.Screen, gameData GameStruct) {
+	text := "x: " + strconv.Itoa(gameData.X) + " y: " + strconv.Itoa(gameData.Y)
 	// Style simple (blanc sur noir)
 	style := tcell.StyleDefault.Foreground(tcell.ColorWhite).Background(tcell.ColorBlack)
 	screen.SetStyle(style)
