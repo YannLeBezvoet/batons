@@ -22,13 +22,13 @@ func OptionsKeyHandler(key tcell.Key, carac rune, optionsData *OptionsStruct, se
 		return OptionsAction{Selected: 0, Action: Quit}
 	}
 	if key == tcell.KeyDown {
-		selected = selected + 1
+		selected++
 		if selected >= menuSize {
 			selected = 0
 		}
 	}
 	if key == tcell.KeyUp {
-		selected = selected - 1
+		selected--
 		if selected < 0 {
 			selected = menuSize - 1
 		}
