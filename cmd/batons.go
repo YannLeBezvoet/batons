@@ -22,6 +22,7 @@ const (
 func main() {
 	menuAction := menu.MenuAction{Selected: 0, Action: menu.None}
 	gameData := game.GameStruct{XCamera: 0, YCamera: 0, XCursor: 1, YCursor: 1}
+	optionsAction := options.OptionsAction{Selected: 0, Action: options.None}
 	screen, err := tcell.NewScreen()
 
 	if err != nil {
@@ -44,9 +45,9 @@ func main() {
 		case StateGame:
 			game.Game(screen, gameData)
 		case StateOptions:
-			options.Options(screen, menuAction.Selected)
+			options.Options(screen, optionsAction.Selected)
 		}
-		go eventListener(screen, &state, &menuAction, &gameData)
+		go eventListener(screen, &state, &menuAction, &gameData, &optionsAction)
 
 		if menuAction.Action == menu.Quit {
 			quit := make(chan struct{})
@@ -62,7 +63,7 @@ func main() {
 	}
 }
 
-func eventListener(screen tcell.Screen, state *AppState, menuAction *menu.MenuAction, gameData *game.GameStruct) {
+func eventListener(screen tcell.Screen, state *AppState, menuAction *menu.MenuAction, gameData *game.GameStruct, optionsAction *options.OptionsAction) {
 	ev := screen.PollEvent()
 	switch ev := ev.(type) {
 	case *tcell.EventKey:
@@ -85,11 +86,11 @@ func eventListener(screen tcell.Screen, state *AppState, menuAction *menu.MenuAc
 			}
 		}
 		if *state == StateOptions {
-			optionsAction := options.OptionsKeyHandler(ev.Key(), ev.Rune(), nil, menuAction.Selected, 4).Action
-			if optionsAction == 1 {
+			optionsAction := options.OptionsKeyHandler(ev.Key(), ev.Rune(), nil, menuAction.Selected, 4)
+			if optionsAction.Action == options.Quit {
 				*state = StateMenu
 				*menuAction = menu.MenuAction{Selected: 0, Action: menu.None}
-				optionsAction = 0
+				optionsAction.Action = options.None
 			}
 		}
 	case *tcell.EventResize:
