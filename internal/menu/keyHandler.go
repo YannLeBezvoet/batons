@@ -42,8 +42,6 @@ func MenukeyHandler(key tcell.Key, selected int, menuSize int) MenuAction {
 			return MenuAction{Selected: selected, Action: Options}
 		case 2:
 			// Quit
-			quit := make(chan struct{})
-			close(quit)
 			return MenuAction{Selected: selected, Action: Quit}
 		}
 	}
