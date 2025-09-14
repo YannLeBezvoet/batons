@@ -7,7 +7,7 @@ import (
 	"batons/internal/game"
 	"batons/internal/menu"
 
-	"github.com/gdamore/tcell"
+	"github.com/gdamore/tcell/v2"
 )
 
 type AppState int
@@ -20,7 +20,9 @@ const (
 
 func main() {
 	menuAction := menu.MenuAction{Selected: 0, Action: menu.None}
+	gameData := game.GameStruct{X: 0, Y: 0}
 	screen, err := tcell.NewScreen()
+
 	if err != nil {
 		log.Fatalf("%+v", err)
 	}
@@ -39,41 +41,44 @@ func main() {
 		case StateMenu:
 			menu.Menu(screen, menuAction.Selected)
 		case StateGame:
-			game.Game(screen)
+			game.Game(screen, gameData)
 		}
+		go eventListener(screen, &state, &menuAction, &gameData)
 
+		if menuAction.Action == menu.Quit {
+			quit := make(chan struct{})
+			close(quit)
+			return
+		}
 		screen.Show()
-
-		ev := screen.PollEvent()
-		switch ev := ev.(type) {
-		case *tcell.EventKey:
-			if state == StateMenu {
-				menuAction = menu.MenukeyHandler(ev.Key(), menuAction.Selected, 3)
-				if menuAction.Action == menu.Start {
-					state = StateGame
-					menuAction = menu.MenuAction{Selected: 0, Action: menu.None}
-				}
-				if menuAction.Action == menu.Quit {
-					quit := make(chan struct{})
-					close(quit)
-					return
-				}
-			}
-			if state == StateGame {
-				gameAction := game.GameKeyHandler(ev.Key())
-				if gameAction == 1 {
-					state = StateMenu
-					menuAction = menu.MenuAction{Selected: 0, Action: menu.None}
-					gameAction = 0
-				}
-			}
-		case *tcell.EventResize:
-			screen.Sync()
-		}
 
 		elapsed := time.Since(start)
 		if elapsed < 50*time.Millisecond {
 			time.Sleep(50*time.Millisecond - elapsed)
 		}
+	}
+}
+
+func eventListener(screen tcell.Screen, state *AppState, menuAction *menu.MenuAction, gameData *game.GameStruct) {
+	ev := screen.PollEvent()
+	switch ev := ev.(type) {
+	case *tcell.EventKey:
+		if *state == StateMenu {
+			*menuAction = menu.MenukeyHandler(ev.Key(), menuAction.Selected, 3)
+			if menuAction.Action == menu.Start {
+				*state = StateGame
+				*menuAction = menu.MenuAction{Selected: 0, Action: menu.None}
+			}
+		}
+		if *state == StateGame {
+			gameAction := game.GameKeyHandler(ev.Key(), gameData)
+			if gameAction == 1 {
+				*state = StateMenu
+				*menuAction = menu.MenuAction{Selected: 0, Action: menu.None}
+				gameAction = 0
+			}
+		}
+	case *tcell.EventResize:
+		screen.Sync()
 	}
 }

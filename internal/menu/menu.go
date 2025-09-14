@@ -1,7 +1,7 @@
 package menu
 
 import (
-	"github.com/gdamore/tcell"
+	"github.com/gdamore/tcell/v2"
 )
 
 func Menu(screen tcell.Screen, selected int) {
