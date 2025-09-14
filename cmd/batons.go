@@ -22,6 +22,7 @@ func main() {
 	menuAction := menu.MenuAction{Selected: 0, Action: menu.None}
 	gameData := game.GameStruct{X: 0, Y: 0}
 	screen, err := tcell.NewScreen()
+
 	if err != nil {
 		log.Fatalf("%+v", err)
 	}
@@ -42,9 +43,14 @@ func main() {
 		case StateGame:
 			game.Game(screen, gameData)
 		}
-
-		screen.Show()
 		go eventListener(screen, &state, &menuAction, &gameData)
+
+		if menuAction.Action == menu.Quit {
+			quit := make(chan struct{})
+			close(quit)
+			return
+		}
+		screen.Show()
 
 		elapsed := time.Since(start)
 		if elapsed < 50*time.Millisecond {
@@ -62,11 +68,6 @@ func eventListener(screen tcell.Screen, state *AppState, menuAction *menu.MenuAc
 			if menuAction.Action == menu.Start {
 				*state = StateGame
 				*menuAction = menu.MenuAction{Selected: 0, Action: menu.None}
-			}
-			if menuAction.Action == menu.Quit {
-				quit := make(chan struct{})
-				close(quit)
-				return
 			}
 		}
 		if *state == StateGame {
