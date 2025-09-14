@@ -61,7 +61,7 @@ func main() {
 				}
 			}
 			if state == StateGame {
-				gameAction := game.GameKeyHandler(ev.Key(), gameData)
+				gameAction := game.GameKeyHandler(ev.Key(), &gameData)
 				if gameAction == 1 {
 					state = StateMenu
 					menuAction = menu.MenuAction{Selected: 0, Action: menu.None}
