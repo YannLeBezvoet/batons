@@ -6,9 +6,8 @@ import (
 	"github.com/gdamore/tcell/v2"
 )
 
-func GameKeyHandler(key tcell.Key, gameData *GameStruct) int {
+func GameKeyHandler(key tcell.Key, carac rune, gameData *GameStruct) int {
 	const delay = 200 * time.Millisecond // 100ms
-
 	if key == tcell.KeyEscape {
 		return 1
 	}
@@ -34,6 +33,30 @@ func GameKeyHandler(key tcell.Key, gameData *GameStruct) int {
 		if checkDelay(gameData.YCameraTime, delay) {
 			gameData.YCameraTime = time.Now()
 			gameData.YCamera++
+		}
+	}
+	if carac == 'z' || carac == 'Z' {
+		if checkDelay(gameData.YCursorTime, delay) {
+			gameData.YCursorTime = time.Now()
+			gameData.YCursor--
+		}
+	}
+	if carac == 's' || carac == 'S' {
+		if checkDelay(gameData.YCursorTime, delay) {
+			gameData.YCursorTime = time.Now()
+			gameData.YCursor++
+		}
+	}
+	if carac == 'q' || carac == 'Q' {
+		if checkDelay(gameData.XCursorTime, delay) {
+			gameData.XCursorTime = time.Now()
+			gameData.XCursor--
+		}
+	}
+	if carac == 'd' || carac == 'D' {
+		if checkDelay(gameData.XCursorTime, delay) {
+			gameData.XCursorTime = time.Now()
+			gameData.XCursor++
 		}
 	}
 	return 0
