@@ -64,36 +64,38 @@ func main() {
 }
 
 func eventListener(screen tcell.Screen, state *AppState, menuAction *menu.MenuAction, gameData *game.GameStruct, optionsAction *options.OptionsAction) {
-	ev := screen.PollEvent()
-	switch ev := ev.(type) {
-	case *tcell.EventKey:
-		if *state == StateMenu {
-			*menuAction = menu.MenukeyHandler(ev.Key(), menuAction.Selected, 3)
-			if menuAction.Action == menu.Start {
-				*state = StateGame
-				*menuAction = menu.MenuAction{Selected: 0, Action: menu.None}
-			} else if menuAction.Action == menu.Options {
-				*state = StateOptions
-				*menuAction = menu.MenuAction{Selected: 0, Action: menu.None}
+	for {
+		ev := screen.PollEvent()
+		switch ev := ev.(type) {
+		case *tcell.EventKey:
+			if *state == StateMenu {
+				*menuAction = menu.MenukeyHandler(ev.Key(), menuAction.Selected, 3)
+				if menuAction.Action == menu.Start {
+					*state = StateGame
+					*menuAction = menu.MenuAction{Selected: 0, Action: menu.None}
+				} else if menuAction.Action == menu.Options {
+					*state = StateOptions
+					*menuAction = menu.MenuAction{Selected: 0, Action: menu.None}
+				}
 			}
-		}
-		if *state == StateGame {
-			gameAction := game.GameKeyHandler(ev.Key(), ev.Rune(), gameData)
-			if gameAction == 1 {
-				*state = StateMenu
-				*menuAction = menu.MenuAction{Selected: 0, Action: menu.None}
-				gameAction = 0
+			if *state == StateGame {
+				gameAction := game.GameKeyHandler(ev.Key(), ev.Rune(), gameData)
+				if gameAction == 1 {
+					*state = StateMenu
+					*menuAction = menu.MenuAction{Selected: 0, Action: menu.None}
+					gameAction = 0
+				}
 			}
-		}
-		if *state == StateOptions {
-			optionsAction := options.OptionsKeyHandler(ev.Key(), ev.Rune(), nil, menuAction.Selected, 4)
-			if optionsAction.Action == options.Quit {
-				*state = StateMenu
-				*menuAction = menu.MenuAction{Selected: 0, Action: menu.None}
-				optionsAction.Action = options.None
+			if *state == StateOptions {
+				optionsAction := options.OptionsKeyHandler(ev.Key(), ev.Rune(), nil, menuAction.Selected, 4, optionsAction)
+				if optionsAction.Action == options.Quit {
+					*state = StateMenu
+					*menuAction = menu.MenuAction{Selected: 0, Action: menu.None}
+					optionsAction.Action = options.None
+				}
 			}
+		case *tcell.EventResize:
+			screen.Sync()
 		}
-	case *tcell.EventResize:
-		screen.Sync()
 	}
 }
