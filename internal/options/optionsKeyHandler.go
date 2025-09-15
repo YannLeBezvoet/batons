@@ -24,7 +24,7 @@ const (
 	Quit
 )
 
-func OptionsKeyHandler(key tcell.Key, carac rune, optionsData *OptionsStruct, selected int, menuSize int, config *configuration.ConfigStruct) OptionsAction {
+func OptionsKeyHandler(key tcell.Key, carac rune, selected int, menuSize int, config *configuration.ConfigStruct) OptionsAction {
 	const delay = 200 * time.Millisecond // 100ms
 	if key == tcell.KeyEscape {
 		return OptionsAction{Selected: 0, Action: Quit}
@@ -55,11 +55,9 @@ func OptionsKeyHandler(key tcell.Key, carac rune, optionsData *OptionsStruct, se
 			config.MoveCursorDown = 's'
 		case 2:
 			// Save settings to config
-			if optionsData != nil {
-				configuration.SaveConfig("config.json", *config)
-				return OptionsAction{Selected: selected, Action: Save}
+			configuration.SaveConfig("config.json", *config)
+			return OptionsAction{Selected: selected, Action: Save}
 
-			}
 		case 3:
 			return OptionsAction{Selected: 0, Action: Quit}
 		}
