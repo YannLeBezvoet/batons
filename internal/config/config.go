@@ -6,26 +6,33 @@ import (
 	"os"
 )
 
-func InitConfig(configPath string) (map[string]string, error) {
+type ConfigStruct struct {
+	MoveCursorLeft  string `json:"MoveCursorLeft"`
+	MoveCursorRight string `json:"MoveCursorRight"`
+	MoveCursorUp    string `json:"MoveCursorUp"`
+	MoveCursorDown  string `json:"MoveCursorDown"`
+}
+
+func InitConfig(configPath string) (ConfigStruct, error) {
 	exists, err := CheckStartingConfig(configPath)
 	if err != nil {
-		return nil, err
+		return ConfigStruct{}, err
 	}
 	if !exists {
 		err := CreateDefaultConfig(configPath)
 		if err != nil {
-			return nil, err
+			return ConfigStruct{}, err
 		}
 	}
-	config, err := LoadConfig(configPath)
+	configStruct, err := LoadConfig(configPath)
 	if err != nil {
-		return nil, err
+		return ConfigStruct{}, err
 	}
-	return config, nil
+	return configStruct, nil
 }
 
 func CheckStartingConfig(configPath string) (bool, error) {
-	if _, err := os.Stat("/path/to/whatever"); err == nil {
+	if _, err := os.Stat(configPath); err == nil {
 		return true, nil
 
 	} else if errors.Is(err, os.ErrNotExist) {
@@ -50,18 +57,18 @@ func CreateDefaultConfig(configPath string) error {
 	return nil
 }
 
-func LoadConfig(configPath string) (map[string]string, error) {
-	config := make(map[string]string)
+func LoadConfig(configPath string) (ConfigStruct, error) {
+	var config ConfigStruct
 
 	file, err := os.Open(configPath)
 	if err != nil {
-		return nil, err
+		return ConfigStruct{}, err
 	}
 	defer file.Close()
 	decoder := json.NewDecoder(file)
 	err = decoder.Decode(&config)
 	if err != nil {
-		return nil, err
+		return ConfigStruct{}, err
 	}
 	return config, nil
 }

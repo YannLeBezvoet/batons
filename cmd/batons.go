@@ -70,7 +70,7 @@ func main() {
 	}
 }
 
-func eventListener(screen tcell.Screen, state *AppState, menuAction *menu.MenuAction, gameData *game.GameStruct, optionsAction *options.OptionsAction, configVar map[string]string) {
+func eventListener(screen tcell.Screen, state *AppState, menuAction *menu.MenuAction, gameData *game.GameStruct, optionsAction *options.OptionsAction, configVar config.ConfigStruct) {
 	for {
 		ev := screen.PollEvent()
 		switch ev := ev.(type) {

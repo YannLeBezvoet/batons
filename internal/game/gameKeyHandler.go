@@ -1,12 +1,13 @@
 package game
 
 import (
+	"batons/internal/config"
 	"time"
 
 	"github.com/gdamore/tcell/v2"
 )
 
-func GameKeyHandler(key tcell.Key, carac rune, gameData *GameStruct, config map[string]string) int {
+func GameKeyHandler(key tcell.Key, carac rune, gameData *GameStruct, config config.ConfigStruct) int {
 	const delay = 200 * time.Millisecond // 100ms
 	if key == tcell.KeyEscape {
 		return 1
