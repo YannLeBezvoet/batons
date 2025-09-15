@@ -72,3 +72,18 @@ func LoadConfig(configPath string) (ConfigStruct, error) {
 	}
 	return config, nil
 }
+
+func SaveConfig(configPath string, config ConfigStruct) error {
+	file, err := os.Create(configPath)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+	encoder := json.NewEncoder(file)
+	encoder.SetIndent("", "  ")
+	err = encoder.Encode(config)
+	if err != nil {
+		return err
+	}
+	return nil
+}
