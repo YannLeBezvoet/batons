@@ -49,7 +49,7 @@ func CreateDefaultConfig(configPath string) error {
 		return err
 	}
 	defer file.Close()
-	myJson := `{"MoveCursorLeft": 113, "MoveCursorRight": 100, "MoveCursorUp": 119, "MoveCursorDown": 115}`
+	myJson := `{"MoveCursorLeft": 113, "MoveCursorRight": 100, "MoveCursorUp": 122, "MoveCursorDown": 115}`
 	_, err = file.WriteString(myJson)
 	if err != nil {
 		return err
