@@ -3,6 +3,7 @@ module batons
 go 1.24.6
 
 require (
+	github.com/eiannone/keyboard v0.0.0-20220611211555-0d226195f203
 	github.com/gdamore/encoding v1.0.1 // indirect
 	github.com/gdamore/tcell/v2 v2.9.0
 	github.com/lucasb-eyer/go-colorful v1.2.0 // indirect
