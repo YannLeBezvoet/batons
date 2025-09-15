@@ -20,6 +20,7 @@ const (
 	MoveCursorRight
 	MoveCursorUp
 	MoveCursorDown
+	Save
 	Quit
 )
 

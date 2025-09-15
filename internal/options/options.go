@@ -14,7 +14,7 @@ type OptionsStruct struct {
 var style = tcell.StyleDefault.Foreground(tcell.ColorWhite).Background(tcell.ColorBlack)
 var highlightStyle = tcell.StyleDefault.Background(tcell.ColorWhite).Foreground(tcell.ColorBlack)
 
-func Options(screen tcell.Screen, selected int) {
+func Options(screen tcell.Screen, optionsAction OptionsAction) {
 	mainText := "Options"
 	_ = mainText
 	menu_buttons := []string{"azerty default", "querty default", "Move Cursor Left", "Move Cursor Right", "Move Cursor Up", "Move Cursor Down", "Back"}
@@ -29,7 +29,7 @@ func Options(screen tcell.Screen, selected int) {
 	indicationText := "Use arrow keys to navigate and Enter or Space to select"
 	draw(screen, indicationText, (width-len(indicationText))/2, y+2, false)
 	for i, button := range menu_buttons {
-		isSelected := i == selected
+		isSelected := i == optionsAction.Selected
 		draw(screen, button, x, y+3+i, isSelected)
 	}
 }
