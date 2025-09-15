@@ -14,6 +14,12 @@ type OptionsAction struct {
 
 const (
 	None = iota
+	azertyDefault
+	quertyDefault
+	MoveCursorLeft
+	MoveCursorRight
+	MoveCursorUp
+	MoveCursorDown
 	Quit
 )
 
