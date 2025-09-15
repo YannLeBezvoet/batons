@@ -24,7 +24,7 @@ const (
 	Quit
 )
 
-func OptionsKeyHandler(key tcell.Key, carac rune, optionsData *OptionsStruct, selected int, menuSize int, config configuration.ConfigStruct) OptionsAction {
+func OptionsKeyHandler(key tcell.Key, carac rune, optionsData *OptionsStruct, selected int, menuSize int, config *configuration.ConfigStruct) OptionsAction {
 	const delay = 200 * time.Millisecond // 100ms
 	if key == tcell.KeyEscape {
 		return OptionsAction{Selected: 0, Action: Quit}
@@ -42,28 +42,28 @@ func OptionsKeyHandler(key tcell.Key, carac rune, optionsData *OptionsStruct, se
 		}
 	}
 	if key == tcell.KeyEnter || carac == ' ' {
-		if selected == menuSize-1 { // Back
-			return OptionsAction{Selected: selected, Action: Quit}
-		}
-		if selected == menuSize-2 { // save
-			// Save settings to config
-			if optionsData != nil {
-				configuration.SaveConfig("config.json", config)
-			}
-			return OptionsAction{Selected: selected, Action: Save}
-		}
-		if selected == 0 { // azerty default
+		switch selected {
+		case 0:
 			config.MoveCursorLeft = 'q'
 			config.MoveCursorRight = 'd'
 			config.MoveCursorUp = 'z'
 			config.MoveCursorDown = 's'
-		}
-		if selected == 1 { // querty default
+		case 1:
 			config.MoveCursorLeft = 'a'
 			config.MoveCursorRight = 'd'
 			config.MoveCursorUp = 'w'
 			config.MoveCursorDown = 's'
+		case 2:
+			// Save settings to config
+			if optionsData != nil {
+				configuration.SaveConfig("config.json", *config)
+				return OptionsAction{Selected: selected, Action: Save}
+
+			}
+		case 3:
+			return OptionsAction{Selected: 0, Action: Quit}
 		}
+
 	}
-	return OptionsAction{Selected: selected, Action: 0}
+	return OptionsAction{Selected: selected, Action: None}
 }

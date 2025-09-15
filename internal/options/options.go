@@ -17,7 +17,7 @@ var highlightStyle = tcell.StyleDefault.Background(tcell.ColorWhite).Foreground(
 func Options(screen tcell.Screen, optionsAction OptionsAction) {
 	mainText := "Options"
 	_ = mainText
-	menu_buttons := []string{"azerty default", "querty default", "Move Cursor Left", "Move Cursor Right", "Move Cursor Up", "Move Cursor Down", "save", "Back"}
+	menu_buttons := []string{"azerty default", "querty default", "save", "Back"}
 	_ = menu_buttons
 	width, height := screen.Size()
 	// Calculer la position pour centrer le texte
