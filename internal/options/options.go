@@ -1,6 +1,8 @@
 package options
 
 import (
+	"time"
+
 	"github.com/gdamore/tcell/v2"
 )
 
@@ -35,6 +37,7 @@ func Options(screen tcell.Screen, optionsAction OptionsAction) {
 		}
 	} else if optionsAction.Action == Save {
 		draw(screen, "Settings saved!", x, y, false)
+		time.Sleep(500 * time.Millisecond)
 	}
 }
 

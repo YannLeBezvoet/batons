@@ -24,25 +24,28 @@ const (
 	Quit
 )
 
-func OptionsKeyHandler(key tcell.Key, carac rune, selected int, menuSize int, config *configuration.ConfigStruct) OptionsAction {
+func OptionsKeyHandler(key tcell.Key, carac rune, optionsAction *OptionsAction, menuSize int, config *configuration.ConfigStruct) OptionsAction {
 	const delay = 200 * time.Millisecond // 100ms
+	if optionsAction.Action == Save {
+		optionsAction.Action = None
+	}
 	if key == tcell.KeyEscape {
 		return OptionsAction{Selected: 0, Action: Quit}
 	}
 	if key == tcell.KeyDown {
-		selected++
-		if selected >= menuSize {
-			selected = 0
+		optionsAction.Selected++
+		if optionsAction.Selected >= menuSize {
+			optionsAction.Selected = 0
 		}
 	}
 	if key == tcell.KeyUp {
-		selected--
-		if selected < 0 {
-			selected = menuSize - 1
+		optionsAction.Selected--
+		if optionsAction.Selected < 0 {
+			optionsAction.Selected = menuSize - 1
 		}
 	}
 	if key == tcell.KeyEnter || carac == ' ' {
-		switch selected {
+		switch optionsAction.Selected {
 		case 0:
 			config.MoveCursorLeft = 'q'
 			config.MoveCursorRight = 'd'
@@ -56,12 +59,12 @@ func OptionsKeyHandler(key tcell.Key, carac rune, selected int, menuSize int, co
 		case 2:
 			// Save settings to config
 			configuration.SaveConfig("config.json", *config)
-			return OptionsAction{Selected: selected, Action: Save}
+			return OptionsAction{Selected: optionsAction.Selected, Action: Save}
 
 		case 3:
 			return OptionsAction{Selected: 0, Action: Quit}
 		}
 
 	}
-	return OptionsAction{Selected: selected, Action: None}
+	return OptionsAction{Selected: optionsAction.Selected, Action: None}
 }
