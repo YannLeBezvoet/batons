@@ -16,7 +16,7 @@ type MenuAction struct {
 	Action   int
 }
 
-func MenukeyHandler(key tcell.Key, selected int, menuSize int) MenuAction {
+func MenukeyHandler(key tcell.Key, carac rune, selected int, menuSize int) MenuAction {
 	if key == tcell.KeyEscape {
 		return MenuAction{Selected: selected, Action: Quit}
 	}
@@ -32,7 +32,7 @@ func MenukeyHandler(key tcell.Key, selected int, menuSize int) MenuAction {
 			selected = menuSize - 1
 		}
 	}
-	if key == tcell.KeyEnter || key == ' ' {
+	if key == tcell.KeyEnter || carac == ' ' {
 		switch selected {
 		case 0:
 			// Start
