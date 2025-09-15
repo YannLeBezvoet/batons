@@ -26,7 +26,7 @@ func Options(screen tcell.Screen, selected int) {
 	// Affiche le texte caractère par caractère
 	draw(screen, mainText, x, y, false)
 	draw(screen, "=========", x-1, y+1, false)
-	indicationText := "Use arrow keys to navigate and Enter to select"
+	indicationText := "Use arrow keys to navigate and Enter or Space to select"
 	draw(screen, indicationText, (width-len(indicationText))/2, y+2, false)
 	for i, button := range menu_buttons {
 		isSelected := i == selected

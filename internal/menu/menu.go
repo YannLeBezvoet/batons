@@ -6,6 +6,7 @@ import (
 
 func Menu(screen tcell.Screen, selected int) {
 	text := "Batons"
+	secondaryText := "Use arrow keys to navigate and Enter or Space to select"
 	menu_buttons := []string{"Start", "Options", "Quit"}
 	// Style simple (blanc sur noir)
 	style := tcell.StyleDefault.Foreground(tcell.ColorWhite).Background(tcell.ColorBlack)
@@ -22,6 +23,10 @@ func Menu(screen tcell.Screen, selected int) {
 	for i := range len(text) + 2 {
 		screen.SetContent(i+x-1, y+1, '=', nil, style)
 	}
+	for i, r := range secondaryText {
+		screen.SetContent(i+(width-len(secondaryText))/2, y+2, r, nil, style)
+	}
+	// Affiche les boutons du menu
 	for i, r := range menu_buttons[0] {
 		used_style := style
 		if 0 == selected {
