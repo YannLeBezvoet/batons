@@ -7,10 +7,10 @@ import (
 )
 
 type ConfigStruct struct {
-	MoveCursorLeft  string `json:"MoveCursorLeft"`
-	MoveCursorRight string `json:"MoveCursorRight"`
-	MoveCursorUp    string `json:"MoveCursorUp"`
-	MoveCursorDown  string `json:"MoveCursorDown"`
+	MoveCursorLeft  rune `json:"MoveCursorLeft"`
+	MoveCursorRight rune `json:"MoveCursorRight"`
+	MoveCursorUp    rune `json:"MoveCursorUp"`
+	MoveCursorDown  rune `json:"MoveCursorDown"`
 }
 
 func InitConfig(configPath string) (ConfigStruct, error) {
