@@ -27,7 +27,8 @@ const (
 func OptionsKeyHandler(key tcell.Key, carac rune, optionsAction *OptionsAction, menuSize int, config *configuration.ConfigStruct) OptionsAction {
 	const delay = 200 * time.Millisecond // 100ms
 	if optionsAction.Action == Save {
-		optionsAction.Action = None
+		optionsAction.Action = Quit
+		return *optionsAction
 	}
 	if key == tcell.KeyEscape {
 		return OptionsAction{Selected: 0, Action: Quit}
