@@ -17,20 +17,24 @@ var highlightStyle = tcell.StyleDefault.Background(tcell.ColorWhite).Foreground(
 func Options(screen tcell.Screen, optionsAction OptionsAction) {
 	mainText := "Options"
 	_ = mainText
-	menu_buttons := []string{"azerty default", "querty default", "Move Cursor Left", "Move Cursor Right", "Move Cursor Up", "Move Cursor Down", "Back"}
+	menu_buttons := []string{"azerty default", "querty default", "Move Cursor Left", "Move Cursor Right", "Move Cursor Up", "Move Cursor Down", "save", "Back"}
 	_ = menu_buttons
 	width, height := screen.Size()
 	// Calculer la position pour centrer le texte
 	x := (width - len(mainText)) / 2
 	y := height / 2
 	// Affiche le texte caractère par caractère
-	draw(screen, mainText, x, y, false)
-	draw(screen, "=========", x-1, y+1, false)
-	indicationText := "Use arrow keys to navigate and Enter or Space to select"
-	draw(screen, indicationText, (width-len(indicationText))/2, y+2, false)
-	for i, button := range menu_buttons {
-		isSelected := i == optionsAction.Selected
-		draw(screen, button, x, y+3+i, isSelected)
+	if optionsAction.Action == None {
+		draw(screen, mainText, x, y, false)
+		draw(screen, "=========", x-1, y+1, false)
+		indicationText := "Use arrow keys to navigate and Enter or Space to select"
+		draw(screen, indicationText, (width-len(indicationText))/2, y+2, false)
+		for i, button := range menu_buttons {
+			isSelected := i == optionsAction.Selected
+			draw(screen, button, x, y+3+i, isSelected)
+		}
+	} else if optionsAction.Action == Save {
+		draw(screen, "Settings saved!", x, y, false)
 	}
 }
 

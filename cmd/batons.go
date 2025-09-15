@@ -4,7 +4,7 @@ import (
 	"log"
 	"time"
 
-	"batons/internal/config"
+	"batons/internal/configuration"
 	"batons/internal/game"
 	"batons/internal/menu"
 	"batons/internal/options"
@@ -94,7 +94,7 @@ func eventListener(screen tcell.Screen, state *AppState, menuAction *menu.MenuAc
 				}
 			}
 			if *state == StateOptions {
-				*optionsAction = options.OptionsKeyHandler(ev.Key(), ev.Rune(), nil, optionsAction.Selected, 7, configVar)
+				*optionsAction = options.OptionsKeyHandler(ev.Key(), ev.Rune(), nil, optionsAction.Selected, 8, configVar)
 				if optionsAction.Action == options.Quit {
 					*state = StateMenu
 					*menuAction = menu.MenuAction{Selected: 0, Action: menu.None}

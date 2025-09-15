@@ -1,7 +1,7 @@
 package menu
 
 import (
-	"batons/internal/config"
+	"batons/internal/configuration"
 
 	"github.com/gdamore/tcell/v2"
 )

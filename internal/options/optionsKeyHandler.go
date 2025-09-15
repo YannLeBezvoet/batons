@@ -1,7 +1,7 @@
 package options
 
 import (
-	"batons/internal/config"
+	configuration "batons/internal/configuration"
 	"time"
 
 	"github.com/gdamore/tcell/v2"
@@ -24,7 +24,7 @@ const (
 	Quit
 )
 
-func OptionsKeyHandler(key tcell.Key, carac rune, optionsData *OptionsStruct, selected int, menuSize int, config config.ConfigStruct) OptionsAction {
+func OptionsKeyHandler(key tcell.Key, carac rune, optionsData *OptionsStruct, selected int, menuSize int, config configuration.ConfigStruct) OptionsAction {
 	const delay = 200 * time.Millisecond // 100ms
 	if key == tcell.KeyEscape {
 		return OptionsAction{Selected: 0, Action: Quit}
@@ -44,6 +44,13 @@ func OptionsKeyHandler(key tcell.Key, carac rune, optionsData *OptionsStruct, se
 	if key == tcell.KeyEnter || carac == ' ' {
 		if selected == menuSize-1 { // Back
 			return OptionsAction{Selected: selected, Action: Quit}
+		}
+		if selected == menuSize-2 { // save
+			// Save settings to config
+			if optionsData != nil {
+				configuration.SaveConfig("config.json", config)
+			}
+			return OptionsAction{Selected: selected, Action: Save}
 		}
 	} // azerty default
 	return OptionsAction{Selected: selected, Action: 0}

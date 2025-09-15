@@ -1,7 +1,7 @@
 package game
 
 import (
-	"batons/internal/config"
+	"batons/internal/configuration"
 	"time"
 
 	"github.com/gdamore/tcell/v2"
