@@ -22,7 +22,8 @@ func Options(screen tcell.Screen, optionsAction OptionsAction) {
 	x := (width - len(mainText)) / 2
 	y := height / 2
 	// Affiche le texte caractère par caractère
-	if optionsAction.Action == None {
+	switch optionsAction.Action {
+	case None:
 		draw(screen, mainText, x, y, false)
 		draw(screen, "=========", x-1, y+1, false)
 		indicationText := "Use arrow keys to navigate and Enter or Space to select"
@@ -31,7 +32,7 @@ func Options(screen tcell.Screen, optionsAction OptionsAction) {
 			isSelected := i == optionsAction.Selected
 			draw(screen, button, x, y+3+i, isSelected)
 		}
-	} else if optionsAction.Action == Save {
+	case Save:
 		draw(screen, "Settings saved!", x, y, false)
 		draw(screen, "Press any key to return to menu", (width-len("Press any key to return to menu"))/2, y+1, false)
 	}

@@ -54,7 +54,7 @@ func main() {
 		case StateOptions:
 			options.Options(screen, optionsAction)
 		}
-		go eventListener(screen, &state, &menuAction, &gameData, &optionsAction, configVar)
+		go eventListener(screen, &state, &menuAction, &gameData, &optionsAction, &configVar)
 
 		if menuAction.Action == menu.Quit {
 			quit := make(chan struct{})
@@ -70,13 +70,13 @@ func main() {
 	}
 }
 
-func eventListener(screen tcell.Screen, state *AppState, menuAction *menu.MenuAction, gameData *game.GameStruct, optionsAction *options.OptionsAction, configVar config.ConfigStruct) {
+func eventListener(screen tcell.Screen, state *AppState, menuAction *menu.MenuAction, gameData *game.GameStruct, optionsAction *options.OptionsAction, configVar *config.ConfigStruct) {
 	for {
 		ev := screen.PollEvent()
 		switch ev := ev.(type) {
 		case *tcell.EventKey:
 			if *state == StateMenu {
-				*menuAction = menu.MenukeyHandler(ev.Key(), ev.Rune(), menuAction.Selected, 3, configVar)
+				*menuAction = menu.MenukeyHandler(ev.Key(), ev.Rune(), menuAction.Selected, 3, *configVar)
 				switch menuAction.Action {
 				case menu.Start:
 					*state = StateGame
@@ -87,7 +87,7 @@ func eventListener(screen tcell.Screen, state *AppState, menuAction *menu.MenuAc
 				}
 			}
 			if *state == StateGame {
-				gameAction := game.GameKeyHandler(ev.Key(), ev.Rune(), gameData, configVar)
+				gameAction := game.GameKeyHandler(ev.Key(), ev.Rune(), gameData, *configVar)
 				if gameAction == 1 {
 					*state = StateMenu
 					*menuAction = menu.MenuAction{Selected: 0, Action: menu.None}
@@ -95,11 +95,20 @@ func eventListener(screen tcell.Screen, state *AppState, menuAction *menu.MenuAc
 				}
 			}
 			if *state == StateOptions {
-				*optionsAction = options.OptionsKeyHandler(ev.Key(), ev.Rune(), optionsAction, 4, &configVar)
+				var tempo_config config.ConfigStruct
+				*optionsAction, tempo_config = options.OptionsKeyHandler(ev.Key(), ev.Rune(), optionsAction, 4, *configVar)
 				if optionsAction.Action == options.Quit {
 					*state = StateMenu
 					*menuAction = menu.MenuAction{Selected: 0, Action: menu.None}
 					*optionsAction = options.OptionsAction{Selected: 0, Action: options.None}
+				}
+				if optionsAction.Action == options.Save {
+					err := config.SaveConfig("config.json", tempo_config)
+					if err != nil {
+						log.Fatalf("%+v", err)
+					}
+					*configVar = tempo_config
+					optionsAction.Action = options.None
 				}
 			}
 		case *tcell.EventResize:

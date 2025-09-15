@@ -24,14 +24,14 @@ const (
 	Quit
 )
 
-func OptionsKeyHandler(key tcell.Key, carac rune, optionsAction *OptionsAction, menuSize int, config *configuration.ConfigStruct) OptionsAction {
+func OptionsKeyHandler(key tcell.Key, carac rune, optionsAction *OptionsAction, menuSize int, config configuration.ConfigStruct) (OptionsAction, configuration.ConfigStruct) {
 	const delay = 200 * time.Millisecond // 100ms
 	if optionsAction.Action == Save {
 		optionsAction.Action = Quit
-		return *optionsAction
+		return *optionsAction, config
 	}
 	if key == tcell.KeyEscape {
-		return OptionsAction{Selected: 0, Action: Quit}
+		return OptionsAction{Selected: 0, Action: Quit}, config
 	}
 	if key == tcell.KeyDown {
 		optionsAction.Selected++
@@ -59,13 +59,13 @@ func OptionsKeyHandler(key tcell.Key, carac rune, optionsAction *OptionsAction, 
 			config.MoveCursorDown = 's'
 		case 2:
 			// Save settings to config
-			configuration.SaveConfig("config.json", *config)
-			return OptionsAction{Selected: optionsAction.Selected, Action: Save}
+			configuration.SaveConfig("config.json", config)
+			return OptionsAction{Selected: optionsAction.Selected, Action: Save}, config
 
 		case 3:
-			return OptionsAction{Selected: 0, Action: Quit}
+			return OptionsAction{Selected: 0, Action: Quit}, config
 		}
 
 	}
-	return OptionsAction{Selected: optionsAction.Selected, Action: None}
+	return OptionsAction{Selected: optionsAction.Selected, Action: None}, config
 }
