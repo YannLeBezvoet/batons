@@ -14,16 +14,23 @@ type OptionsStruct struct {
 var style = tcell.StyleDefault.Foreground(tcell.ColorWhite).Background(tcell.ColorBlack)
 var highlightStyle = tcell.StyleDefault.Background(tcell.ColorWhite).Foreground(tcell.ColorBlack)
 
-func Options(screen tcell.Screen, optionsAction OptionsAction) {
+func Options(screen tcell.Screen, optionsAction OptionsAction, upRune rune) {
 	mainText := "Options"
-	menu_buttons := []string{"azerty default", "qwerty default", "save", "Back"}
+	menu_buttons := []string{"azerty", "qwerty", "save", "Back"}
+	switch upRune {
+	case 'z':
+		menu_buttons[0] = "-> azerty"
+		menu_buttons[1] = "qwerty"
+	case 'w':
+		menu_buttons[0] = "azerty"
+		menu_buttons[1] = "-> qwerty"
+	}
 	width, height := screen.Size()
 	// Calculer la position pour centrer le texte
 	x := (width - len(mainText)) / 2
 	y := height / 2
 	// Affiche le texte caractère par caractère
-	switch optionsAction.Action {
-	case None:
+	if optionsAction.Waiting == false {
 		draw(screen, mainText, x, y, false)
 		draw(screen, "=========", x-1, y+1, false)
 		indicationText := "Use arrow keys to navigate and Enter or Space to select"
@@ -32,9 +39,10 @@ func Options(screen tcell.Screen, optionsAction OptionsAction) {
 			isSelected := i == optionsAction.Selected
 			draw(screen, button, x, y+3+i, isSelected)
 		}
-	case Save:
+	} else if optionsAction.Waiting {
 		draw(screen, "Settings saved!", x, y, false)
-		draw(screen, "Press any key to return to menu", (width-len("Press any key to return to menu"))/2, y+1, false)
+		text := "Press any key to return to menu"
+		draw(screen, text, (width-len(text))/2, y+1, false)
 	}
 }
 

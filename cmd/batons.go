@@ -23,7 +23,7 @@ const (
 func main() {
 	menuAction := menu.MenuAction{Selected: 0, Action: menu.None}
 	gameData := game.GameStruct{XCamera: 0, YCamera: 0, XCursor: 1, YCursor: 1}
-	optionsAction := options.OptionsAction{Selected: 0, Action: options.None}
+	optionsAction := options.OptionsAction{Selected: 0, Action: options.None, Waiting: false}
 	screen, err := tcell.NewScreen()
 
 	if err != nil {
@@ -52,7 +52,7 @@ func main() {
 		case StateGame:
 			game.Game(screen, gameData)
 		case StateOptions:
-			options.Options(screen, optionsAction)
+			options.Options(screen, optionsAction, configVar.MoveCursorUp)
 		}
 		go eventListener(screen, &state, &menuAction, &gameData, &optionsAction, &configVar)
 
