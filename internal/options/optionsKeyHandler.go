@@ -16,7 +16,7 @@ const (
 	Quit
 )
 
-func OptionsKeyHandler(key tcell.Key, carac rune, optionsData *OptionsStruct, selected int, menuSize int) OptionsAction {
+func OptionsKeyHandler(key tcell.Key, carac rune, optionsData *OptionsStruct, selected int, menuSize int, config map[string]string) OptionsAction {
 	const delay = 200 * time.Millisecond // 100ms
 	if key == tcell.KeyEscape {
 		return OptionsAction{Selected: 0, Action: Quit}

@@ -16,7 +16,7 @@ type MenuAction struct {
 	Action   int
 }
 
-func MenukeyHandler(key tcell.Key, carac rune, selected int, menuSize int) MenuAction {
+func MenukeyHandler(key tcell.Key, carac rune, selected int, menuSize int, config map[string]string) MenuAction {
 	if key == tcell.KeyEscape {
 		return MenuAction{Selected: selected, Action: Quit}
 	}

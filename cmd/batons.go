@@ -4,6 +4,7 @@ import (
 	"log"
 	"time"
 
+	"batons/internal/config"
 	"batons/internal/game"
 	"batons/internal/menu"
 	"batons/internal/options"
@@ -35,6 +36,12 @@ func main() {
 
 	state := StateMenu
 
+	configPath := "config.json"
+	configVar, err := config.InitConfig(configPath)
+	if err != nil {
+		log.Fatalf("%+v", err)
+	}
+
 	for {
 		start := time.Now()
 		screen.Clear()
@@ -47,7 +54,7 @@ func main() {
 		case StateOptions:
 			options.Options(screen, optionsAction.Selected)
 		}
-		go eventListener(screen, &state, &menuAction, &gameData, &optionsAction)
+		go eventListener(screen, &state, &menuAction, &gameData, &optionsAction, configVar)
 
 		if menuAction.Action == menu.Quit {
 			quit := make(chan struct{})
@@ -63,13 +70,13 @@ func main() {
 	}
 }
 
-func eventListener(screen tcell.Screen, state *AppState, menuAction *menu.MenuAction, gameData *game.GameStruct, optionsAction *options.OptionsAction) {
+func eventListener(screen tcell.Screen, state *AppState, menuAction *menu.MenuAction, gameData *game.GameStruct, optionsAction *options.OptionsAction, configVar map[string]string) {
 	for {
 		ev := screen.PollEvent()
 		switch ev := ev.(type) {
 		case *tcell.EventKey:
 			if *state == StateMenu {
-				*menuAction = menu.MenukeyHandler(ev.Key(), ev.Rune(), menuAction.Selected, 3)
+				*menuAction = menu.MenukeyHandler(ev.Key(), ev.Rune(), menuAction.Selected, 3, configVar)
 				if menuAction.Action == menu.Start {
 					*state = StateGame
 					*menuAction = menu.MenuAction{Selected: 0, Action: menu.None}
@@ -79,7 +86,7 @@ func eventListener(screen tcell.Screen, state *AppState, menuAction *menu.MenuAc
 				}
 			}
 			if *state == StateGame {
-				gameAction := game.GameKeyHandler(ev.Key(), ev.Rune(), gameData)
+				gameAction := game.GameKeyHandler(ev.Key(), ev.Rune(), gameData, configVar)
 				if gameAction == 1 {
 					*state = StateMenu
 					*menuAction = menu.MenuAction{Selected: 0, Action: menu.None}
@@ -87,7 +94,7 @@ func eventListener(screen tcell.Screen, state *AppState, menuAction *menu.MenuAc
 				}
 			}
 			if *state == StateOptions {
-				*optionsAction = options.OptionsKeyHandler(ev.Key(), ev.Rune(), nil, optionsAction.Selected, 7)
+				*optionsAction = options.OptionsKeyHandler(ev.Key(), ev.Rune(), nil, optionsAction.Selected, 7, configVar)
 				if optionsAction.Action == options.Quit {
 					*state = StateMenu
 					*menuAction = menu.MenuAction{Selected: 0, Action: menu.None}

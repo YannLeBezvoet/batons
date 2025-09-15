@@ -6,7 +6,7 @@ import (
 	"github.com/gdamore/tcell/v2"
 )
 
-func GameKeyHandler(key tcell.Key, carac rune, gameData *GameStruct) int {
+func GameKeyHandler(key tcell.Key, carac rune, gameData *GameStruct, config map[string]string) int {
 	const delay = 200 * time.Millisecond // 100ms
 	if key == tcell.KeyEscape {
 		return 1
