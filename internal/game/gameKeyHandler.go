@@ -1,12 +1,13 @@
 package game
 
 import (
+	"batons/internal/configuration"
 	"time"
 
 	"github.com/gdamore/tcell/v2"
 )
 
-func GameKeyHandler(key tcell.Key, carac rune, gameData *GameStruct) int {
+func GameKeyHandler(key tcell.Key, carac rune, gameData *GameStruct, config config.ConfigStruct) int {
 	const delay = 200 * time.Millisecond // 100ms
 	if key == tcell.KeyEscape {
 		return 1
@@ -35,25 +36,25 @@ func GameKeyHandler(key tcell.Key, carac rune, gameData *GameStruct) int {
 			gameData.YCamera++
 		}
 	}
-	if carac == 'z' || carac == 'Z' {
+	if carac == config.MoveCursorUp || carac == config.MoveCursorUp-32 {
 		if checkDelay(gameData.YCursorTime, delay) {
 			gameData.YCursorTime = time.Now()
 			gameData.YCursor--
 		}
 	}
-	if carac == 's' || carac == 'S' {
+	if carac == config.MoveCursorDown || carac == config.MoveCursorDown-32 {
 		if checkDelay(gameData.YCursorTime, delay) {
 			gameData.YCursorTime = time.Now()
 			gameData.YCursor++
 		}
 	}
-	if carac == 'q' || carac == 'Q' {
+	if carac == config.MoveCursorLeft || carac == config.MoveCursorLeft-32 {
 		if checkDelay(gameData.XCursorTime, delay) {
 			gameData.XCursorTime = time.Now()
 			gameData.XCursor--
 		}
 	}
-	if carac == 'd' || carac == 'D' {
+	if carac == config.MoveCursorRight || carac == config.MoveCursorRight-32 {
 		if checkDelay(gameData.XCursorTime, delay) {
 			gameData.XCursorTime = time.Now()
 			gameData.XCursor++
