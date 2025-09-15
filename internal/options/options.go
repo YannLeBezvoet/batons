@@ -42,7 +42,8 @@ func Options(screen tcell.Screen, optionsAction OptionsAction, upRune rune) {
 		}
 	case Save:
 		draw(screen, "Settings saved!", x, y, false)
-		draw(screen, "Press any key to return to menu", (width-len("Press any key to return to menu"))/2, y+1, false)
+		text := "Press any key to return to menu"
+		draw(screen, text, (width-len(text))/2, y+1, false)
 	}
 }
 
