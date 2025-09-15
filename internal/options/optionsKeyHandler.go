@@ -52,6 +52,18 @@ func OptionsKeyHandler(key tcell.Key, carac rune, optionsData *OptionsStruct, se
 			}
 			return OptionsAction{Selected: selected, Action: Save}
 		}
-	} // azerty default
+		if selected == 0 { // azerty default
+			config.MoveCursorLeft = 'q'
+			config.MoveCursorRight = 'd'
+			config.MoveCursorUp = 'z'
+			config.MoveCursorDown = 's'
+		}
+		if selected == 1 { // querty default
+			config.MoveCursorLeft = 'a'
+			config.MoveCursorRight = 'd'
+			config.MoveCursorUp = 'w'
+			config.MoveCursorDown = 's'
+		}
+	}
 	return OptionsAction{Selected: selected, Action: 0}
 }
