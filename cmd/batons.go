@@ -77,10 +77,11 @@ func eventListener(screen tcell.Screen, state *AppState, menuAction *menu.MenuAc
 		case *tcell.EventKey:
 			if *state == StateMenu {
 				*menuAction = menu.MenukeyHandler(ev.Key(), ev.Rune(), menuAction.Selected, 3, configVar)
-				if menuAction.Action == menu.Start {
+				switch menuAction.Action {
+				case menu.Start:
 					*state = StateGame
 					*menuAction = menu.MenuAction{Selected: 0, Action: menu.None}
-				} else if menuAction.Action == menu.Options {
+				case menu.Options:
 					*state = StateOptions
 					*menuAction = menu.MenuAction{Selected: 0, Action: menu.None}
 				}
