@@ -95,19 +95,17 @@ func eventListener(screen tcell.Screen, state *AppState, menuAction *menu.MenuAc
 				}
 			}
 			if *state == StateOptions {
-				var tempo_config config.ConfigStruct
-				*optionsAction, tempo_config = options.OptionsKeyHandler(ev.Key(), ev.Rune(), optionsAction, 4, *configVar)
+				*optionsAction, *configVar = options.OptionsKeyHandler(ev.Key(), ev.Rune(), optionsAction, 4, *configVar)
 				if optionsAction.Action == options.Quit {
 					*state = StateMenu
 					*menuAction = menu.MenuAction{Selected: 0, Action: menu.None}
 					*optionsAction = options.OptionsAction{Selected: 0, Action: options.None}
 				}
 				if optionsAction.Action == options.Save {
-					err := config.SaveConfig("config.json", tempo_config)
+					err := config.SaveConfig("config.json", *configVar)
 					if err != nil {
 						log.Fatalf("%+v", err)
 					}
-					*configVar = tempo_config
 					optionsAction.Action = options.None
 				}
 			}
