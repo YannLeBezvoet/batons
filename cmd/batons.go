@@ -52,7 +52,7 @@ func main() {
 		case StateGame:
 			game.Game(screen, gameData)
 		case StateOptions:
-			options.Options(screen, optionsAction)
+			options.Options(screen, optionsAction, configVar.MoveCursorUp)
 		}
 		go eventListener(screen, &state, &menuAction, &gameData, &optionsAction, &configVar)
 

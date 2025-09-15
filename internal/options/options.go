@@ -14,9 +14,17 @@ type OptionsStruct struct {
 var style = tcell.StyleDefault.Foreground(tcell.ColorWhite).Background(tcell.ColorBlack)
 var highlightStyle = tcell.StyleDefault.Background(tcell.ColorWhite).Foreground(tcell.ColorBlack)
 
-func Options(screen tcell.Screen, optionsAction OptionsAction) {
+func Options(screen tcell.Screen, optionsAction OptionsAction, upRune rune) {
 	mainText := "Options"
-	menu_buttons := []string{"azerty default", "qwerty default", "save", "Back"}
+	menu_buttons := []string{"azerty", "qwerty", "save", "Back"}
+	switch upRune {
+	case 'z':
+		menu_buttons[0] = "-> azerty"
+		menu_buttons[1] = "qwerty"
+	case 'w':
+		menu_buttons[0] = "azerty"
+		menu_buttons[1] = "-> qwerty"
+	}
 	width, height := screen.Size()
 	// Calculer la position pour centrer le texte
 	x := (width - len(mainText)) / 2
