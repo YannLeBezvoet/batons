@@ -20,10 +20,15 @@ func Game(screen tcell.Screen, gameData GameStruct) {
 	for i, r := range text {
 		screen.SetContent(i, 0, r, nil, style)
 	}
-	// Affiche le curseur
-	screen.SetContent(-gameData.XCamera+gameData.XCursor, -gameData.YCamera+gameData.YCursor, '*', nil, style)
+
 	// Affiche la map
 	DrawMap(screen, gameData)
+	// Affiche le curseur
+	cursor := '*'
+	if gameData.GameMap[gameData.XCursor][gameData.YCursor] == 1 {
+		cursor = '▓'
+	}
+	screen.SetContent(-gameData.XCamera+gameData.XCursor, -gameData.YCamera+gameData.YCursor, cursor, nil, style)
 	// Affiche à l’écran
 	screen.Show()
 	time.Sleep(50 * time.Millisecond)
