@@ -22,6 +22,8 @@ func Game(screen tcell.Screen, gameData GameStruct) {
 	}
 	// Affiche le curseur
 	screen.SetContent(-gameData.XCamera+gameData.XCursor, -gameData.YCamera+gameData.YCursor, '*', nil, style)
+	// Affiche la map
+	DrawMap(screen, gameData)
 	// Affiche à l’écran
 	screen.Show()
 	time.Sleep(50 * time.Millisecond)
@@ -32,7 +34,7 @@ func DrawMap(screen tcell.Screen, gameData GameStruct) {
 	for x, y := range gameData.GameMap {
 		for yKey, val := range y {
 			if val == 1 {
-				screen.SetContent(x-gameData.XCamera, yKey-gameData.YCamera, '█', nil, style)
+				screen.SetContent(-gameData.XCamera+x, -gameData.YCamera+yKey, '█', nil, style)
 			}
 		}
 	}
