@@ -12,4 +12,7 @@ type GameStruct struct {
 	YCursor     int
 	XCursorTime time.Time
 	YCursorTime time.Time
+
+	GameMap   map[int]map[int]int
+	EnterTime time.Time
 }

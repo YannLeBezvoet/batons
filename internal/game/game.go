@@ -20,9 +20,27 @@ func Game(screen tcell.Screen, gameData GameStruct) {
 	for i, r := range text {
 		screen.SetContent(i, 0, r, nil, style)
 	}
+
+	// Affiche la map
+	DrawMap(screen, gameData)
 	// Affiche le curseur
-	screen.SetContent(-gameData.XCamera+gameData.XCursor, -gameData.YCamera+gameData.YCursor, '*', nil, style)
+	cursor := '*'
+	if gameData.GameMap[gameData.XCursor][gameData.YCursor] == 1 {
+		cursor = '▓'
+	}
+	screen.SetContent(-gameData.XCamera+gameData.XCursor, -gameData.YCamera+gameData.YCursor, cursor, nil, style)
 	// Affiche à l’écran
 	screen.Show()
 	time.Sleep(50 * time.Millisecond)
+}
+
+func DrawMap(screen tcell.Screen, gameData GameStruct) {
+	style := tcell.StyleDefault.Foreground(tcell.ColorWhite).Background(tcell.ColorBlack)
+	for x, y := range gameData.GameMap {
+		for yKey, val := range y {
+			if val == 1 {
+				screen.SetContent(-gameData.XCamera+x, -gameData.YCamera+yKey, '█', nil, style)
+			}
+		}
+	}
 }
