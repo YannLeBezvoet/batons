@@ -61,7 +61,7 @@ func GameKeyHandler(key tcell.Key, carac rune, gameData *GameStruct, config conf
 		}
 	}
 
-	if key == tcell.KeyEnter {
+	if carac == '0' {
 		// ajoute un mur à la position du curseur)
 		if gameData.GameMap[gameData.XCursor] == nil {
 			gameData.GameMap[gameData.XCursor] = make(map[int]int)
