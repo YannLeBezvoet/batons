@@ -1,7 +1,7 @@
 package game
 
 import (
-	"batons/internal/configuration"
+	config "batons/internal/configuration"
 	"time"
 
 	"github.com/gdamore/tcell/v2"
@@ -60,6 +60,11 @@ func GameKeyHandler(key tcell.Key, carac rune, gameData *GameStruct, config conf
 			gameData.XCursor++
 		}
 	}
+
+	if key == tcell.KeyEnter {
+		gameData.GameMap[gameData.XCursor][gameData.YCursor] = 1
+	}
+
 	return 0
 }
 

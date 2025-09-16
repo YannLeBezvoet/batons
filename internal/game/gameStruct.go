@@ -13,5 +13,5 @@ type GameStruct struct {
 	XCursorTime time.Time
 	YCursorTime time.Time
 
-	GameMap map[int]int
+	GameMap map[int]map[int]int
 }
