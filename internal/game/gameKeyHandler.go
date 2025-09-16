@@ -2,6 +2,7 @@ package game
 
 import (
 	config "batons/internal/configuration"
+	"batons/internal/stickman"
 	"time"
 
 	"github.com/gdamore/tcell/v2"
@@ -61,7 +62,7 @@ func GameKeyHandler(key tcell.Key, carac rune, gameData *GameStruct, config conf
 		}
 	}
 
-	if carac == '0' {
+	if carac == '+' {
 		// ajoute un mur à la position du curseur)
 		if gameData.GameMap[gameData.XCursor] == nil {
 			gameData.GameMap[gameData.XCursor] = make(map[int]int)
@@ -70,6 +71,22 @@ func GameKeyHandler(key tcell.Key, carac rune, gameData *GameStruct, config conf
 
 	}
 
+	if carac == '-' {
+		// supprime un mur à la position du curseur
+		if gameData.GameMap[gameData.XCursor] != nil {
+			gameData.GameMap[gameData.XCursor][gameData.YCursor] = 0
+		}
+	}
+
+	if carac == '0' {
+		// Create a stickman at the cursor position
+		newStickman := &stickman.Stickman{
+			X:      gameData.XCursor,
+			Y:      gameData.YCursor,
+			Health: 100,
+		}
+		gameData.StickManSlice = append(gameData.StickManSlice, newStickman)
+	}
 	return 0
 }
 
