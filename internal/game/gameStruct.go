@@ -1,6 +1,9 @@
 package game
 
-import "time"
+import (
+	"batons/internal/stickman"
+	"time"
+)
 
 type GameStruct struct {
 	XCamera     int
@@ -13,6 +16,7 @@ type GameStruct struct {
 	XCursorTime time.Time
 	YCursorTime time.Time
 
-	GameMap   map[int]map[int]int
-	EnterTime time.Time
+	GameMap       map[int]map[int]int
+	EnterTime     time.Time
+	StickManSlice []*stickman.Stickman
 }
