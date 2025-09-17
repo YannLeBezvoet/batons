@@ -22,7 +22,15 @@ const (
 
 func main() {
 	menuAction := menu.MenuAction{Selected: 0, Action: menu.None}
-	gameData := game.GameStruct{XCamera: 0, YCamera: 0, XCursor: 1, YCursor: 1, GameMap: make(map[int]map[int]int)}
+	gameData := game.GameStruct{
+		XCamera:         0,
+		YCamera:         0,
+		XCursor:         1,
+		YCursor:         1,
+		GameMap:         make(map[int]map[int]int),
+		CursorDrawTime:  time.Now(),
+		ShowFirstCursor: true,
+	}
 	optionsAction := options.OptionsAction{Selected: 0, Action: options.None, Waiting: false}
 	screen, err := tcell.NewScreen()
 
