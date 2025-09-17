@@ -26,7 +26,7 @@ func Game(screen tcell.Screen, gameData GameStruct) {
 	// Affiche les stickmen
 	DrawStickmen(screen, gameData)
 	// Affiche le curseur
-	cursor := '*'
+	cursor := '𞢈'
 	if gameData.GameMap[gameData.XCursor][gameData.YCursor] == 1 {
 		cursor = '▓'
 	}
