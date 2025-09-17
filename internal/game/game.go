@@ -27,9 +27,7 @@ func Game(screen tcell.Screen, gameData GameStruct) {
 	DrawStickmen(screen, gameData)
 	// Affiche le curseur
 	cursor := '𞢈'
-	if gameData.GameMap[gameData.XCursor][gameData.YCursor] == 1 {
-		cursor = '▓'
-	}
+
 	screen.SetContent(-gameData.XCamera+gameData.XCursor, -gameData.YCamera+gameData.YCursor, cursor, nil, style)
 	// Affiche à l’écran
 	screen.Show()
