@@ -50,11 +50,6 @@ func DrawMap(screen tcell.Screen, gameData GameStruct) {
 func DrawStickmen(screen tcell.Screen, gameData GameStruct) {
 	style := tcell.StyleDefault.Foreground(tcell.ColorWhite).Background(tcell.ColorBlack)
 	for _, stickman := range gameData.StickManSlice {
-		screen.SetContent(-gameData.XCamera+stickman.X, -gameData.YCamera+stickman.Y-2, 'O', nil, style)
-		screen.SetContent(-gameData.XCamera+stickman.X-1, -gameData.YCamera+stickman.Y-1, '/', nil, style)
-		screen.SetContent(-gameData.XCamera+stickman.X, -gameData.YCamera+stickman.Y-1, '|', nil, style)
-		screen.SetContent(-gameData.XCamera+stickman.X+1, -gameData.YCamera+stickman.Y-1, '\\', nil, style)
-		screen.SetContent(-gameData.XCamera+stickman.X-1, -gameData.YCamera+stickman.Y, '/', nil, style)
-		screen.SetContent(-gameData.XCamera+stickman.X+1, -gameData.YCamera+stickman.Y, '\\', nil, style)
+		screen.SetContent(-gameData.XCamera+stickman.X, -gameData.YCamera+stickman.Y, '𞠻', nil, style)
 	}
 }
