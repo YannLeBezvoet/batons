@@ -58,7 +58,7 @@ func main() {
 		case StateMenu:
 			menu.Menu(screen, menuAction.Selected)
 		case StateGame:
-			game.Game(screen, gameData)
+			gameData.ShowFirstCursor, gameData.CursorDrawTime = game.Game(screen, gameData)
 		case StateOptions:
 			options.Options(screen, optionsAction, configVar.MoveCursorUp)
 		}
