@@ -7,15 +7,22 @@ import (
 	"github.com/gdamore/tcell/v2"
 )
 
-func Game(screen tcell.Screen, gameData GameStruct) {
-	text := "xCamera: " + strconv.Itoa(gameData.XCamera) + " yCamera: " + strconv.Itoa(gameData.YCamera)
-	text += " xCursor: " + strconv.Itoa(gameData.XCursor) + " yCursor: " + strconv.Itoa(gameData.YCursor)
+func Game(screen tcell.Screen, gameData GameStruct) (bool, time.Time) {
+	screen.Clear()
 	// Style simple (blanc sur noir)
 	style := tcell.StyleDefault.Foreground(tcell.ColorWhite).Background(tcell.ColorBlack)
 	screen.SetStyle(style)
-	// Boucle principale pour afficher le message
-
-	screen.Clear()
+	cursor := '𞢈'
+	// Affiche le curseur pendant 500ms au début
+	if time.Since(gameData.CursorDrawTime) > 500*time.Millisecond {
+		gameData.CursorDrawTime = time.Now()
+		gameData.ShowFirstCursor = !gameData.ShowFirstCursor
+	}
+	if gameData.ShowFirstCursor {
+		screen.SetContent(-gameData.XCamera+gameData.XCursor, -gameData.YCamera+gameData.YCursor, cursor, nil, style)
+	}
+	text := "xCamera: " + strconv.Itoa(gameData.XCamera) + " yCamera: " + strconv.Itoa(gameData.YCamera)
+	text += " xCursor: " + strconv.Itoa(gameData.XCursor) + " yCursor: " + strconv.Itoa(gameData.YCursor)
 	// Afficher le texte
 	for i, r := range text {
 		screen.SetContent(i, 0, r, nil, style)
@@ -26,14 +33,12 @@ func Game(screen tcell.Screen, gameData GameStruct) {
 	// Affiche les stickmen
 	DrawStickmen(screen, gameData)
 	// Affiche le curseur
-	cursor := '𞢈'
-	if gameData.GameMap[gameData.XCursor][gameData.YCursor] == 1 {
-		cursor = '▓'
+	if !gameData.ShowFirstCursor {
+		screen.SetContent(-gameData.XCamera+gameData.XCursor, -gameData.YCamera+gameData.YCursor, cursor, nil, style)
 	}
-	screen.SetContent(-gameData.XCamera+gameData.XCursor, -gameData.YCamera+gameData.YCursor, cursor, nil, style)
 	// Affiche à l’écran
 	screen.Show()
-	time.Sleep(50 * time.Millisecond)
+	return gameData.ShowFirstCursor, gameData.CursorDrawTime
 }
 
 func DrawMap(screen tcell.Screen, gameData GameStruct) {
