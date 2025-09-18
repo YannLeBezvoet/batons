@@ -8,6 +8,7 @@ import (
 )
 
 func Game(screen tcell.Screen, gameData GameStruct) (bool, time.Time) {
+	screen.Clear()
 	// Style simple (blanc sur noir)
 	style := tcell.StyleDefault.Foreground(tcell.ColorWhite).Background(tcell.ColorBlack)
 	screen.SetStyle(style)
@@ -22,9 +23,6 @@ func Game(screen tcell.Screen, gameData GameStruct) (bool, time.Time) {
 	}
 	text := "xCamera: " + strconv.Itoa(gameData.XCamera) + " yCamera: " + strconv.Itoa(gameData.YCamera)
 	text += " xCursor: " + strconv.Itoa(gameData.XCursor) + " yCursor: " + strconv.Itoa(gameData.YCursor)
-	// Boucle principale pour afficher le message
-
-	screen.Clear()
 	// Afficher le texte
 	for i, r := range text {
 		screen.SetContent(i, 0, r, nil, style)
@@ -40,7 +38,6 @@ func Game(screen tcell.Screen, gameData GameStruct) (bool, time.Time) {
 	}
 	// Affiche à l’écran
 	screen.Show()
-	time.Sleep(50 * time.Millisecond)
 	return gameData.ShowFirstCursor, gameData.CursorDrawTime
 }
 
