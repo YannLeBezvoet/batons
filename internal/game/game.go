@@ -8,11 +8,10 @@ import (
 )
 
 func Game(screen tcell.Screen, gameData GameStruct) (bool, time.Time) {
-	screen.Clear()
-	// Style simple (blanc sur noir)
+	// Style simple (Blanc sur noir)
 	style := tcell.StyleDefault.Foreground(tcell.ColorWhite).Background(tcell.ColorBlack)
 	screen.SetStyle(style)
-	cursor := '𞢈'
+	cursor := '+' // Caractère Unicode pour le curseur
 	// Affiche le curseur pendant 500ms au début
 	if time.Since(gameData.CursorDrawTime) > 500*time.Millisecond {
 		gameData.CursorDrawTime = time.Now()
@@ -37,7 +36,6 @@ func Game(screen tcell.Screen, gameData GameStruct) (bool, time.Time) {
 		screen.SetContent(-gameData.XCamera+gameData.XCursor, -gameData.YCamera+gameData.YCursor, cursor, nil, style)
 	}
 	// Affiche à l’écran
-	screen.Show()
 	return gameData.ShowFirstCursor, gameData.CursorDrawTime
 }
 
@@ -55,6 +53,6 @@ func DrawMap(screen tcell.Screen, gameData GameStruct) {
 func DrawStickmen(screen tcell.Screen, gameData GameStruct) {
 	style := tcell.StyleDefault.Foreground(tcell.ColorWhite).Background(tcell.ColorBlack)
 	for _, stickman := range gameData.StickManSlice {
-		screen.SetContent(-gameData.XCamera+stickman.X, -gameData.YCamera+stickman.Y, '𞠻', nil, style)
+		screen.SetContent(-gameData.XCamera+stickman.X, -gameData.YCamera+stickman.Y, '𐀪', nil, style)
 	}
 }

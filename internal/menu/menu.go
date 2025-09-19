@@ -8,6 +8,7 @@ func Menu(screen tcell.Screen, selected int) {
 	text := "Batons"
 	secondaryText := "Use arrow keys to navigate and Enter or Space to select"
 	menu_buttons := []string{"Start", "Options", "Quit"}
+	menu_buttons[selected] = "-> " + menu_buttons[selected]
 	// Style simple (blanc sur noir)
 	style := tcell.StyleDefault.Foreground(tcell.ColorWhite).Background(tcell.ColorBlack)
 	screen.SetStyle(style)
@@ -28,24 +29,12 @@ func Menu(screen tcell.Screen, selected int) {
 	}
 	// Affiche les boutons du menu
 	for i, r := range menu_buttons[0] {
-		used_style := style
-		if 0 == selected {
-			used_style = tcell.StyleDefault.Foreground(tcell.ColorBlack).Background(tcell.ColorWhite)
-		}
-		screen.SetContent(i+x, y+3, r, nil, used_style)
+		screen.SetContent(i+x, y+3, r, nil, style)
 	}
 	for i, r := range menu_buttons[1] {
-		used_style := style
-		if 1 == selected {
-			used_style = tcell.StyleDefault.Foreground(tcell.ColorBlack).Background(tcell.ColorWhite)
-		}
-		screen.SetContent(i+x, y+4, r, nil, used_style)
+		screen.SetContent(i+x, y+4, r, nil, style)
 	}
 	for i, r := range menu_buttons[2] {
-		used_style := style
-		if 2 == selected {
-			used_style = tcell.StyleDefault.Foreground(tcell.ColorBlack).Background(tcell.ColorWhite)
-		}
-		screen.SetContent(i+x, y+5, r, nil, used_style)
+		screen.SetContent(i+x, y+5, r, nil, style)
 	}
 }
