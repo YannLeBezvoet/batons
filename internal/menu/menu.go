@@ -30,21 +30,21 @@ func Menu(screen tcell.Screen, selected int) {
 	for i, r := range menu_buttons[0] {
 		used_style := style
 		if 0 == selected {
-			used_style = tcell.StyleDefault.Foreground(tcell.ColorBlack).Background(tcell.ColorWhite)
+			used_style = tcell.StyleDefault.Foreground(tcell.ColorWhite).Background(tcell.ColorBlack)
 		}
 		screen.SetContent(i+x, y+3, r, nil, used_style)
 	}
 	for i, r := range menu_buttons[1] {
 		used_style := style
 		if 1 == selected {
-			used_style = tcell.StyleDefault.Foreground(tcell.ColorBlack).Background(tcell.ColorWhite)
+			used_style = tcell.StyleDefault.Foreground(tcell.ColorWhite).Background(tcell.ColorBlack)
 		}
 		screen.SetContent(i+x, y+4, r, nil, used_style)
 	}
 	for i, r := range menu_buttons[2] {
 		used_style := style
 		if 2 == selected {
-			used_style = tcell.StyleDefault.Foreground(tcell.ColorBlack).Background(tcell.ColorWhite)
+			used_style = tcell.StyleDefault.Foreground(tcell.ColorWhite).Background(tcell.ColorBlack)
 		}
 		screen.SetContent(i+x, y+5, r, nil, used_style)
 	}

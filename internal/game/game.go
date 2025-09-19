@@ -9,7 +9,7 @@ import (
 
 func Game(screen tcell.Screen, gameData GameStruct) (bool, time.Time) {
 	screen.Clear()
-	// Style simple (blanc sur noir)
+	// Style simple (Blanc sur noir)
 	style := tcell.StyleDefault.Foreground(tcell.ColorWhite).Background(tcell.ColorBlack)
 	screen.SetStyle(style)
 	cursor := '𞢈'
