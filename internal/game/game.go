@@ -8,7 +8,6 @@ import (
 )
 
 func Game(screen tcell.Screen, gameData GameStruct) (bool, time.Time) {
-	screen.Clear()
 	// Style simple (Blanc sur noir)
 	style := tcell.StyleDefault.Foreground(tcell.ColorWhite).Background(tcell.ColorBlack)
 	screen.SetStyle(style)
@@ -37,7 +36,6 @@ func Game(screen tcell.Screen, gameData GameStruct) (bool, time.Time) {
 		screen.SetContent(-gameData.XCamera+gameData.XCursor, -gameData.YCamera+gameData.YCursor, cursor, nil, style)
 	}
 	// Affiche à l’écran
-	screen.Show()
 	return gameData.ShowFirstCursor, gameData.CursorDrawTime
 }
 
