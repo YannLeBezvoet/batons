@@ -18,7 +18,7 @@ Stick
 `s`: move down  
 ### Move Camera
 Use arrow keys
-### Add a stickmen
+### Add stickmen
 `0`: to add stickmen
 ### Add/Remove a block
 `+`: to add block  
