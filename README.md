@@ -11,7 +11,7 @@ Stick
 `d`: move right  
 `z`: move up  
 `s`: move down  
-#### For qwery option
+#### For qwerty option
 `a`: move left  
 `d`: move right  
 `w`: move up  
