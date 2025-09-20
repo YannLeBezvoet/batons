@@ -58,3 +58,13 @@ func (s *Stickman) SetHealth(health int) {
 		s.Health = 100
 	}
 }
+
+func (s *Stickman) Update(gameMap map[int]map[int]int) {
+	if !s.IsAlive() {
+		return
+	}
+	// Fall of stickman if no ground below
+	if gameMap[s.X] == nil || gameMap[s.X][s.Y+1] != 1 {
+		s.Move(0, 1) // Move down
+	}
+}
