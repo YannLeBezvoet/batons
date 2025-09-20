@@ -29,6 +29,10 @@ func Game(screen tcell.Screen, gameData GameStruct) (bool, time.Time) {
 
 	// Affiche la map
 	DrawMap(screen, gameData)
+	// Update stickmen
+	for _, stickman := range gameData.StickManSlice {
+		stickman.Update(gameData.GameMap)
+	}
 	// Affiche les stickmen
 	DrawStickmen(screen, gameData)
 	// Affiche le curseur
