@@ -1,16 +1,18 @@
 package stickman
 
 type Stickman struct {
-	X      int
-	Y      int
-	Health int
+	X          int
+	Y          int
+	Health     int
+	XDirection int //  negatif pour gauche, positif pour droite
 }
 
 func NewStickman(x, y int) *Stickman {
 	return &Stickman{
-		X:      x,
-		Y:      y,
-		Health: 100,
+		X:          x,
+		Y:          y,
+		Health:     100,
+		XDirection: 0,
 	}
 }
 
@@ -66,5 +68,25 @@ func (s *Stickman) Update(gameMap map[int]map[int]int) {
 	// Fall of stickman if no ground below
 	if gameMap[s.X] == nil || gameMap[s.X][s.Y+1] != 1 {
 		s.Move(0, 1) // Move down
+	}
+	// Simple horizontal movement
+	if s.XDirection > 0 {
+		// Move right
+		if gameMap[s.X+1][s.Y] == 0 {
+			s.Move(1, 0)
+			s.XDirection--
+		} else if gameMap[s.X+1][s.Y+1] == 0 {
+			s.Move(1, 1)
+			s.XDirection--
+		}
+	} else if s.XDirection < 0 {
+		// Move left
+		if gameMap[s.X-1][s.Y] == 0 {
+			s.Move(-1, 0)
+			s.XDirection++
+		} else if gameMap[s.X-1][s.Y+1] == 0 {
+			s.Move(-1, 1)
+			s.XDirection++
+		}
 	}
 }
