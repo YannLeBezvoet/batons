@@ -1,6 +1,7 @@
 package game
 
 import (
+	"batons/internal/blocks"
 	"strconv"
 	"time"
 
@@ -47,7 +48,7 @@ func DrawMap(screen tcell.Screen, gameData GameStruct) {
 	style := tcell.StyleDefault.Foreground(tcell.ColorWhite).Background(tcell.ColorBlack)
 	for x, y := range gameData.GameMap {
 		for yKey, val := range y {
-			if val == 1 {
+			if val == blocks.Stone {
 				screen.SetContent(-gameData.XCamera+x, -gameData.YCamera+yKey, '█', nil, style)
 			}
 		}
