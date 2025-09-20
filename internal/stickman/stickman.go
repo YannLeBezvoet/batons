@@ -87,6 +87,9 @@ func (s *Stickman) Update(gameMap map[int]map[int]int) {
 		} else if gameMap[s.X+1][s.Y+1] == 0 { // if no wall on the right and down
 			s.Move(1, 1)
 			s.XDirection--
+		} else if gameMap[s.X+1][s.Y-1] == 0 { // if no wall on the right and up
+			s.Move(1, -1)
+			s.XDirection--
 		}
 	} else if s.XDirection < 0 {
 		// Move left
@@ -95,6 +98,9 @@ func (s *Stickman) Update(gameMap map[int]map[int]int) {
 			s.XDirection++
 		} else if gameMap[s.X-1][s.Y+1] == 0 { // if no wall on the left and down
 			s.Move(-1, 1)
+			s.XDirection++
+		} else if gameMap[s.X-1][s.Y-1] == 0 { // if no wall on the left and up
+			s.Move(-1, -1)
 			s.XDirection++
 		}
 	}
