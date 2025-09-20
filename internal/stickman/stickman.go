@@ -78,6 +78,30 @@ func (s *Stickman) Update(gameMap map[int]map[int]int) {
 	if gameMap[s.X] == nil || gameMap[s.X][s.Y+1] != 1 {
 		s.Move(0, 1) // Move down
 	}
+	// Apply horizontal movement
+	s.ApplyMovement(gameMap)
+	// Take a decision (move left, right or stay)
+	s.TakeADecision(gameMap)
+}
+
+func (s *Stickman) TakeADecision(gameMap map[int]map[int]int) {
+	// Take a decision every 2 seconds
+	if time.Since(s.TakeADecisionTime) > 2*time.Second && gameMap[s.X][s.Y+1] == 1 {
+		s.TakeADecisionTime = time.Now()
+		// Randomly decide to move left, right or stay
+		decision := utils.RandRange(0, 3) // 0: left, 1: right, 2: stay
+		switch decision {
+		case 0:
+			s.XDirection = -utils.RandRange(1, 5) // Move left
+		case 1:
+			s.XDirection = utils.RandRange(1, 5) // Move right
+		default:
+			s.XDirection = 0 // Stay
+		}
+	}
+}
+
+func (s *Stickman) ApplyMovement(gameMap map[int]map[int]int) {
 	// Simple horizontal movement
 	if s.XDirection > 0 {
 		// Move right
@@ -102,20 +126,6 @@ func (s *Stickman) Update(gameMap map[int]map[int]int) {
 		} else if gameMap[s.X-1][s.Y-1] == 0 { // if no wall on the left and up
 			s.Move(-1, -1)
 			s.XDirection++
-		}
-	}
-	// Take a decision every 2 seconds
-	if time.Since(s.TakeADecisionTime) > 2*time.Second && gameMap[s.X][s.Y+1] == 1 {
-		s.TakeADecisionTime = time.Now()
-		// Randomly decide to move left, right or stay
-		decision := utils.RandRange(0, 3) // 0: left, 1: right, 2: stay
-		switch decision {
-		case 0:
-			s.XDirection = -utils.RandRange(1, 5) // Move left
-		case 1:
-			s.XDirection = utils.RandRange(1, 5) // Move right
-		default:
-			s.XDirection = 0 // Stay
 		}
 	}
 }
