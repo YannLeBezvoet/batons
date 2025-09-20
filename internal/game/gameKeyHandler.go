@@ -80,11 +80,7 @@ func GameKeyHandler(key tcell.Key, carac rune, gameData *GameStruct, config conf
 
 	if carac == '0' {
 		// Create a stickman at the cursor position
-		newStickman := &stickman.Stickman{
-			X:      gameData.XCursor,
-			Y:      gameData.YCursor,
-			Health: 100,
-		}
+		newStickman := stickman.NewStickman(gameData.XCursor, gameData.YCursor)
 		gameData.StickManSlice = append(gameData.StickManSlice, newStickman)
 	}
 	return 0
