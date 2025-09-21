@@ -4,7 +4,7 @@ import "github.com/gdamore/tcell/v2"
 
 type Block struct {
 	ID      int
-	Char    string
+	Char    rune
 	Color   tcell.Color
 	IsSolid bool
 }
