@@ -11,9 +11,11 @@ import (
 
 func GameMouseHandler(mouseEvent tcell.EventMouse, gameData *GameStruct, config config.ConfigStruct) {
 	const delay = 200 * time.Millisecond // 200ms
+	x, y := mouseEvent.Position()
+	x += gameData.XCamera
+	y += gameData.YCamera
 	switch mouseEvent.Buttons() {
 	case tcell.Button1: // Left click
-		x, y := mouseEvent.Position()
 		if gameData.GameMap[x] == nil {
 			gameData.GameMap[x] = make(map[int]int)
 		}
@@ -21,7 +23,6 @@ func GameMouseHandler(mouseEvent tcell.EventMouse, gameData *GameStruct, config 
 
 	case tcell.Button2: // Right click
 		if utils.CheckDelay(gameData.LastRightClickTime, delay) {
-			x, y := mouseEvent.Position()
 			newStickman := stickman.NewStickman(x, y)
 			gameData.StickManSlice = append(gameData.StickManSlice, newStickman)
 			gameData.LastRightClickTime = time.Now()
