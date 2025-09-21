@@ -1,6 +1,6 @@
 package blocks
 
-type BlockType struct {
+type Block struct {
 	ID      int
 	char    string
 	isSolid bool
