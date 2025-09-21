@@ -2,7 +2,6 @@ package game
 
 import (
 	config "batons/internal/configuration"
-	"batons/internal/stickman"
 	"batons/internal/utils"
 	"time"
 
@@ -37,52 +36,6 @@ func GameKeyHandler(key tcell.Key, carac rune, gameData *GameStruct, config conf
 			gameData.YCameraTime = time.Now()
 			gameData.YCamera++
 		}
-	}
-	if carac == config.MoveCursorUp || carac == config.MoveCursorUp-32 {
-		if utils.CheckDelay(gameData.YCursorTime, delay) {
-			gameData.YCursorTime = time.Now()
-			gameData.YCursor--
-		}
-	}
-	if carac == config.MoveCursorDown || carac == config.MoveCursorDown-32 {
-		if utils.CheckDelay(gameData.YCursorTime, delay) {
-			gameData.YCursorTime = time.Now()
-			gameData.YCursor++
-		}
-	}
-	if carac == config.MoveCursorLeft || carac == config.MoveCursorLeft-32 {
-		if utils.CheckDelay(gameData.XCursorTime, delay) {
-			gameData.XCursorTime = time.Now()
-			gameData.XCursor--
-		}
-	}
-	if carac == config.MoveCursorRight || carac == config.MoveCursorRight-32 {
-		if utils.CheckDelay(gameData.XCursorTime, delay) {
-			gameData.XCursorTime = time.Now()
-			gameData.XCursor++
-		}
-	}
-
-	if carac == '+' {
-		// ajoute un mur à la position du curseur)
-		if gameData.GameMap[gameData.XCursor] == nil {
-			gameData.GameMap[gameData.XCursor] = make(map[int]int)
-		}
-		gameData.GameMap[gameData.XCursor][gameData.YCursor] = 1
-
-	}
-
-	if carac == '-' {
-		// supprime un mur à la position du curseur
-		if gameData.GameMap[gameData.XCursor] != nil {
-			gameData.GameMap[gameData.XCursor][gameData.YCursor] = 0
-		}
-	}
-
-	if carac == '0' {
-		// Create a stickman at the cursor position
-		newStickman := stickman.NewStickman(gameData.XCursor, gameData.YCursor)
-		gameData.StickManSlice = append(gameData.StickManSlice, newStickman)
 	}
 	return 0
 }

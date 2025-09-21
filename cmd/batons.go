@@ -25,8 +25,6 @@ func main() {
 	gameData := game.GameStruct{
 		XCamera:         0,
 		YCamera:         0,
-		XCursor:         1,
-		YCursor:         1,
 		GameMap:         make(map[int]map[int]int),
 		CursorDrawTime:  time.Now(),
 		ShowFirstCursor: true,
