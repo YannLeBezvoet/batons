@@ -4,6 +4,7 @@ import (
 	"log"
 	"time"
 
+	"batons/internal/blocks"
 	config "batons/internal/configuration"
 	"batons/internal/game"
 	"batons/internal/menu"
@@ -43,6 +44,7 @@ func main() {
 		log.Fatalf("%+v", err)
 	}
 	screen.EnableMouse()
+	blocks.Init()
 
 	for {
 		start := time.Now()
