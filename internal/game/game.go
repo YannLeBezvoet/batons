@@ -27,6 +27,8 @@ func Game(screen tcell.Screen, gameData GameStruct) {
 	// Affiche les stickmen
 	DrawStickmen(screen, gameData)
 
+	// Affiche la box de sélection
+	DrawSelectionBox(screen)
 }
 
 func DrawMap(screen tcell.Screen, gameData GameStruct) {
@@ -45,4 +47,20 @@ func DrawStickmen(screen tcell.Screen, gameData GameStruct) {
 	for _, stickman := range gameData.StickManSlice {
 		screen.SetContent(-gameData.XCamera+stickman.X, -gameData.YCamera+stickman.Y, '𐀪', nil, style)
 	}
+}
+
+func DrawSelectionBox(screen tcell.Screen) {
+	style := tcell.StyleDefault.Foreground(tcell.ColorWhite).Background(tcell.ColorBlack)
+	x, _ := screen.Size()
+	boxsize := 6
+	bottom := 3
+	blockPosX := x - 3
+	blockPosY := 1
+	for i := x - boxsize; i < x; i++ {
+		screen.SetContent(i, bottom, '#', nil, style)
+	}
+	for i := 0; i < bottom; i++ {
+		screen.SetContent(x-boxsize, i, '#', nil, style)
+	}
+	screen.SetContent(blockPosX, blockPosY, '█', nil, style)
 }
