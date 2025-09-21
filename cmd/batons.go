@@ -41,9 +41,7 @@ func main() {
 		log.Fatalf("%+v", err)
 	}
 	defer screen.Fini()
-
 	state := StateMenu
-
 	configPath := "config.json"
 	configVar, err := config.InitConfig(configPath)
 	if err != nil {
@@ -116,6 +114,12 @@ func eventListener(screen tcell.Screen, state *AppState, menuAction *menu.MenuAc
 					}
 					optionsAction.Action = options.None
 				}
+			}
+		case *tcell.EventMouse:
+			// handle mouse events here if needed
+			switch *state {
+			case StateGame:
+				// Handle mouse events in the game state
 			}
 		case *tcell.EventResize:
 			screen.Sync()
