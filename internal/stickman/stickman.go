@@ -108,7 +108,7 @@ func (s *Stickman) ApplyMovement(gameMap map[int]map[int]int) {
 		if gameMap[s.X+1][s.Y] == 0 { //if no wall on the right
 			s.Move(1, 0)
 			s.XDirection--
-		} else if gameMap[s.X+1][s.Y+1] == 0 && gameMap[s.X][s.Y+1] == 0 { // if no wall on the bottom right
+		} else if gameMap[s.X+1][s.Y+1] == 0 && gameMap[s.X][s.Y+1] == 0 { // if no wall on the down and right
 			s.Move(1, 1)
 			s.XDirection--
 		} else if gameMap[s.X+1][s.Y-1] == 0 && gameMap[s.X][s.Y-1] == 0 { // if no wall on the top right
