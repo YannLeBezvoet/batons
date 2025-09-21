@@ -116,7 +116,6 @@ func eventListener(screen tcell.Screen, state *AppState, menuAction *menu.MenuAc
 				}
 			}
 		case *tcell.EventMouse:
-			// handle mouse events here if needed
 			switch *state {
 			case StateGame:
 				// Handle mouse events in the game state
