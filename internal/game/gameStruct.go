@@ -11,10 +11,6 @@ type GameStruct struct {
 	YCamera     int
 	YCameraTime time.Time
 
-	XCursor         int
-	YCursor         int
-	XCursorTime     time.Time
-	YCursorTime     time.Time
 	CursorDrawTime  time.Time
 	ShowFirstCursor bool
 

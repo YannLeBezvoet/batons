@@ -12,17 +12,8 @@ func Game(screen tcell.Screen, gameData GameStruct) (bool, time.Time) {
 	// Style simple (Blanc sur noir)
 	style := tcell.StyleDefault.Foreground(tcell.ColorWhite).Background(tcell.ColorBlack)
 	screen.SetStyle(style)
-	cursor := '+' // Caractère Unicode pour le curseur
-	// Affiche le curseur pendant 500ms au début
-	if time.Since(gameData.CursorDrawTime) > 500*time.Millisecond {
-		gameData.CursorDrawTime = time.Now()
-		gameData.ShowFirstCursor = !gameData.ShowFirstCursor
-	}
-	if gameData.ShowFirstCursor {
-		screen.SetContent(-gameData.XCamera+gameData.XCursor, -gameData.YCamera+gameData.YCursor, cursor, nil, style)
-	}
+
 	text := "xCamera: " + strconv.Itoa(gameData.XCamera) + " yCamera: " + strconv.Itoa(gameData.YCamera)
-	text += " xCursor: " + strconv.Itoa(gameData.XCursor) + " yCursor: " + strconv.Itoa(gameData.YCursor)
 	// Afficher le texte
 	for i, r := range text {
 		screen.SetContent(i, 0, r, nil, style)
@@ -36,10 +27,7 @@ func Game(screen tcell.Screen, gameData GameStruct) (bool, time.Time) {
 	}
 	// Affiche les stickmen
 	DrawStickmen(screen, gameData)
-	// Affiche le curseur
-	if !gameData.ShowFirstCursor {
-		screen.SetContent(-gameData.XCamera+gameData.XCursor, -gameData.YCamera+gameData.YCursor, cursor, nil, style)
-	}
+
 	// Affiche à l’écran
 	return gameData.ShowFirstCursor, gameData.CursorDrawTime
 }
