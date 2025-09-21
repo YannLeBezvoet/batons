@@ -1,7 +1,10 @@
 package blocks
 
+import "github.com/gdamore/tcell/v2"
+
 type Block struct {
 	ID      int
-	char    string
-	isSolid bool
+	Char    string
+	Color   tcell.Color
+	IsSolid bool
 }
