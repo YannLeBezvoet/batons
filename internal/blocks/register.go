@@ -16,8 +16,8 @@ func Get(id int) (Block, bool) {
 }
 
 func Init() {
-	Register(Block{ID: Air, Char: " ", Color: tcell.ColorBlack, IsSolid: false})  // air
-	Register(Block{ID: Stone, Char: "█", Color: tcell.ColorWhite, IsSolid: true}) // stone
-	Register(Block{ID: Dirt, Char: "▒", Color: tcell.ColorBrown, IsSolid: true})  // dirt
-	Register(Block{ID: Grass, Char: "▓", Color: tcell.ColorGreen, IsSolid: true}) // grass
+	Register(Block{ID: Air, Char: ' ', Color: tcell.ColorBlack, IsSolid: false})  // air
+	Register(Block{ID: Stone, Char: '█', Color: tcell.ColorWhite, IsSolid: true}) // stone
+	Register(Block{ID: Dirt, Char: '▒', Color: tcell.ColorBrown, IsSolid: true})  // dirt
+	Register(Block{ID: Grass, Char: '▓', Color: tcell.ColorGreen, IsSolid: true}) // grass
 }
