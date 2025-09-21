@@ -3,12 +3,11 @@ package game
 import (
 	"batons/internal/blocks"
 	"strconv"
-	"time"
 
 	"github.com/gdamore/tcell/v2"
 )
 
-func Game(screen tcell.Screen, gameData GameStruct) (bool, time.Time) {
+func Game(screen tcell.Screen, gameData GameStruct) {
 	// Style simple (Blanc sur noir)
 	style := tcell.StyleDefault.Foreground(tcell.ColorWhite).Background(tcell.ColorBlack)
 	screen.SetStyle(style)
@@ -28,8 +27,6 @@ func Game(screen tcell.Screen, gameData GameStruct) (bool, time.Time) {
 	// Affiche les stickmen
 	DrawStickmen(screen, gameData)
 
-	// Affiche à l’écran
-	return gameData.ShowFirstCursor, gameData.CursorDrawTime
 }
 
 func DrawMap(screen tcell.Screen, gameData GameStruct) {
