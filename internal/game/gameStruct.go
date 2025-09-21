@@ -18,7 +18,8 @@ type GameStruct struct {
 	CursorDrawTime  time.Time
 	ShowFirstCursor bool
 
-	GameMap       map[int]map[int]int
-	EnterTime     time.Time
-	StickManSlice []*stickman.Stickman
+	GameMap            map[int]map[int]int
+	EnterTime          time.Time
+	StickManSlice      []*stickman.Stickman
+	LastRightClickTime time.Time
 }

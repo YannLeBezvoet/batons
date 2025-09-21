@@ -33,7 +33,6 @@ func main() {
 	}
 	optionsAction := options.OptionsAction{Selected: 0, Action: options.None, Waiting: false}
 	screen, err := tcell.NewScreen()
-
 	if err != nil {
 		log.Fatalf("%+v", err)
 	}
@@ -47,6 +46,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("%+v", err)
 	}
+	screen.EnableMouse()
 
 	for {
 		start := time.Now()
@@ -120,6 +120,7 @@ func eventListener(screen tcell.Screen, state *AppState, menuAction *menu.MenuAc
 			switch *state {
 			case StateGame:
 				// Handle mouse events in the game state
+				game.GameMouseHandler(*ev, gameData, *configVar)
 			}
 		case *tcell.EventResize:
 			screen.Sync()
