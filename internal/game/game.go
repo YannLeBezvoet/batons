@@ -60,7 +60,7 @@ func DrawSelectionBox(screen tcell.Screen) {
 	for i := x - selectionBoxSize; i < x; i++ {
 		screen.SetContent(i, boxBottomY, '#', nil, style)
 	}
-	for i := range boxBottomY {
+	for i := 0; i < boxBottomY; i++ {
 		screen.SetContent(x-selectionBoxSize, i, '#', nil, style)
 	}
 	screen.SetContent(blockPosX, blockPosY, '█', nil, style)
