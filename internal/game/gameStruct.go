@@ -11,8 +11,6 @@ type GameStruct struct {
 	YCamera     int
 	YCameraTime time.Time
 
-	CursorDrawTime  time.Time
-	ShowFirstCursor bool
 
 	GameMap            map[int]map[int]int
 	EnterTime          time.Time
