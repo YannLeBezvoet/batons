@@ -3,6 +3,7 @@ package game
 import (
 	config "batons/internal/configuration"
 	"batons/internal/stickman"
+	"batons/internal/utils"
 	"time"
 
 	"github.com/gdamore/tcell/v2"
@@ -14,49 +15,49 @@ func GameKeyHandler(key tcell.Key, carac rune, gameData *GameStruct, config conf
 		return 1
 	}
 	if key == tcell.KeyLeft {
-		if checkDelay(gameData.XCameraTime, delay) {
+		if utils.CheckDelay(gameData.XCameraTime, delay) {
 			gameData.XCameraTime = time.Now()
 			gameData.XCamera--
 		}
 	}
 	if key == tcell.KeyRight {
-		if checkDelay(gameData.XCameraTime, delay) {
+		if utils.CheckDelay(gameData.XCameraTime, delay) {
 			gameData.XCameraTime = time.Now()
 			gameData.XCamera++
 		}
 	}
 	if key == tcell.KeyUp {
-		if checkDelay(gameData.YCameraTime, delay) {
+		if utils.CheckDelay(gameData.YCameraTime, delay) {
 			gameData.YCameraTime = time.Now()
 			gameData.YCamera--
 		}
 	}
 	if key == tcell.KeyDown {
-		if checkDelay(gameData.YCameraTime, delay) {
+		if utils.CheckDelay(gameData.YCameraTime, delay) {
 			gameData.YCameraTime = time.Now()
 			gameData.YCamera++
 		}
 	}
 	if carac == config.MoveCursorUp || carac == config.MoveCursorUp-32 {
-		if checkDelay(gameData.YCursorTime, delay) {
+		if utils.CheckDelay(gameData.YCursorTime, delay) {
 			gameData.YCursorTime = time.Now()
 			gameData.YCursor--
 		}
 	}
 	if carac == config.MoveCursorDown || carac == config.MoveCursorDown-32 {
-		if checkDelay(gameData.YCursorTime, delay) {
+		if utils.CheckDelay(gameData.YCursorTime, delay) {
 			gameData.YCursorTime = time.Now()
 			gameData.YCursor++
 		}
 	}
 	if carac == config.MoveCursorLeft || carac == config.MoveCursorLeft-32 {
-		if checkDelay(gameData.XCursorTime, delay) {
+		if utils.CheckDelay(gameData.XCursorTime, delay) {
 			gameData.XCursorTime = time.Now()
 			gameData.XCursor--
 		}
 	}
 	if carac == config.MoveCursorRight || carac == config.MoveCursorRight-32 {
-		if checkDelay(gameData.XCursorTime, delay) {
+		if utils.CheckDelay(gameData.XCursorTime, delay) {
 			gameData.XCursorTime = time.Now()
 			gameData.XCursor++
 		}
@@ -84,8 +85,4 @@ func GameKeyHandler(key tcell.Key, carac rune, gameData *GameStruct, config conf
 		gameData.StickManSlice = append(gameData.StickManSlice, newStickman)
 	}
 	return 0
-}
-
-func checkDelay(lastTime time.Time, delay time.Duration) bool {
-	return time.Since(lastTime) > delay
 }
