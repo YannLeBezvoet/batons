@@ -32,12 +32,11 @@ func Game(screen tcell.Screen, gameData GameStruct) {
 }
 
 func DrawMap(screen tcell.Screen, gameData GameStruct) {
-	style := tcell.StyleDefault.Foreground(tcell.ColorWhite).Background(tcell.ColorBlack)
 	for x, y := range gameData.GameMap {
 		for yKey, val := range y {
-			if val == blocks.Stone {
-				screen.SetContent(-gameData.XCamera+x, -gameData.YCamera+yKey, '█', nil, style)
-			}
+			block, _ := blocks.Get(val)
+			style := tcell.StyleDefault.Foreground(block.Color).Background(tcell.ColorBlack)
+			screen.SetContent(-gameData.XCamera+x, -gameData.YCamera+yKey, block.Char, nil, style)
 		}
 	}
 }
