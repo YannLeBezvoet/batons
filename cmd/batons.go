@@ -23,11 +23,9 @@ const (
 func main() {
 	menuAction := menu.MenuAction{Selected: 0, Action: menu.None}
 	gameData := game.GameStruct{
-		XCamera:         0,
-		YCamera:         0,
-		GameMap:         make(map[int]map[int]int),
-		CursorDrawTime:  time.Now(),
-		ShowFirstCursor: true,
+		XCamera: 0,
+		YCamera: 0,
+		GameMap: make(map[int]map[int]int),
 	}
 	optionsAction := options.OptionsAction{Selected: 0, Action: options.None, Waiting: false}
 	screen, err := tcell.NewScreen()
@@ -54,7 +52,7 @@ func main() {
 		case StateMenu:
 			menu.Menu(screen, menuAction.Selected)
 		case StateGame:
-			gameData.ShowFirstCursor, gameData.CursorDrawTime = game.Game(screen, gameData)
+			game.Game(screen, gameData)
 		case StateOptions:
 			options.Options(screen, optionsAction, configVar.MoveCursorUp)
 		}
