@@ -50,17 +50,19 @@ func DrawStickmen(screen tcell.Screen, gameData GameStruct) {
 }
 
 func DrawSelectionBox(screen tcell.Screen) {
+	const selectionBoxSize = 6
+	const boxBottomY = 3
+	const blockOffsetX = 3
+	const blockPosY = 1
+
 	style := tcell.StyleDefault.Foreground(tcell.ColorWhite).Background(tcell.ColorBlack)
 	x, _ := screen.Size()
-	boxsize := 6
-	bottom := 3
-	blockPosX := x - 3
-	blockPosY := 1
-	for i := x - boxsize; i < x; i++ {
-		screen.SetContent(i, bottom, '#', nil, style)
+	blockPosX := x - blockOffsetX
+	for i := x - selectionBoxSize; i < x; i++ {
+		screen.SetContent(i, boxBottomY, '#', nil, style)
 	}
-	for i := 0; i < bottom; i++ {
-		screen.SetContent(x-boxsize, i, '#', nil, style)
+	for i := 0; i < boxBottomY; i++ {
+		screen.SetContent(x-selectionBoxSize, i, '#', nil, style)
 	}
 	screen.SetContent(blockPosX, blockPosY, '█', nil, style)
 }
