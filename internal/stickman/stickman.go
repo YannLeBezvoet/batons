@@ -121,7 +121,7 @@ func (s *Stickman) ApplyMovement(gameMap map[int]map[int]int) {
 		if !blockRirght.IsSolid { //if no wall on the right
 			s.Move(1, 0)
 			s.XDirection--
-		} else if !blockLowerRight.IsSolid && !upperBlock.IsSolid { // if no wall on the down and right (bottom-right diagonal)
+		} else if !blockLowerRight.IsSolid && !lowerBlock.IsSolid { // if no wall on the down and right (bottom-right diagonal)
 			s.Move(1, 1)
 			s.XDirection--
 		} else if !blockUpperRight.IsSolid && !upperBlock.IsSolid { // if no wall on the up and right (top-right diagonal)
