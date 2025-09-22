@@ -106,7 +106,7 @@ func (s *Stickman) TakeADecision(gameMap map[int]map[int]int) {
 }
 
 func (s *Stickman) ApplyMovement(gameMap map[int]map[int]int) {
-	blockRirght := blocks.Get(gameMap[s.X+1][s.Y])
+	blockRight := blocks.Get(gameMap[s.X+1][s.Y])
 	blockUpperRight := blocks.Get(gameMap[s.X+1][s.Y-1])
 	blockLowerRight := blocks.Get(gameMap[s.X+1][s.Y+1])
 	upperBlock := blocks.Get(gameMap[s.X][s.Y-1])
@@ -118,7 +118,7 @@ func (s *Stickman) ApplyMovement(gameMap map[int]map[int]int) {
 	// Simple horizontal movement
 	if s.XDirection > 0 {
 		// Move right
-		if !blockRirght.IsSolid { //if no wall on the right
+		if !blockRight.IsSolid { //if no wall on the right
 			s.Move(1, 0)
 			s.XDirection--
 		} else if !blockLowerRight.IsSolid && !lowerBlock.IsSolid { // if no wall on the down and right (bottom-right diagonal)
