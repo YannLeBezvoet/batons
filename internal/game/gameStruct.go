@@ -11,9 +11,10 @@ type GameStruct struct {
 	YCamera     int
 	YCameraTime time.Time
 
-
 	GameMap            map[int]map[int]int
 	EnterTime          time.Time
 	StickManSlice      []*stickman.Stickman
 	LastRightClickTime time.Time
+
+	SelectedBlock int
 }

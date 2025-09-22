@@ -1,6 +1,7 @@
 package stickman
 
 import (
+	"batons/internal/blocks"
 	"batons/internal/utils"
 	"time"
 )
@@ -75,7 +76,9 @@ func (s *Stickman) Update(gameMap map[int]map[int]int) {
 		return
 	}
 	// Fall of stickman if no ground below
-	if gameMap[s.X] == nil || gameMap[s.X][s.Y+1] != 1 {
+	if gameMap[s.X] == nil {
+		s.Move(0, 1) // Move down
+	} else if block := blocks.Get(gameMap[s.X][s.Y+1]); !block.IsSolid {
 		s.Move(0, 1) // Move down
 	}
 	// Apply horizontal movement
@@ -86,7 +89,8 @@ func (s *Stickman) Update(gameMap map[int]map[int]int) {
 
 func (s *Stickman) TakeADecision(gameMap map[int]map[int]int) {
 	// Take a decision every 2 seconds
-	if time.Since(s.TakeADecisionTime) > 2*time.Second && gameMap[s.X][s.Y+1] == 1 {
+	block := blocks.Get(gameMap[s.X][s.Y+1])
+	if time.Since(s.TakeADecisionTime) > 2*time.Second && block.IsSolid {
 		s.TakeADecisionTime = time.Now()
 		// Randomly decide to move left, right or stay
 		decision := utils.RandRange(0, 3) // 0: left, 1: right, 2: stay
@@ -102,28 +106,37 @@ func (s *Stickman) TakeADecision(gameMap map[int]map[int]int) {
 }
 
 func (s *Stickman) ApplyMovement(gameMap map[int]map[int]int) {
+	blockRirght := blocks.Get(gameMap[s.X+1][s.Y])
+	blockUpperRight := blocks.Get(gameMap[s.X+1][s.Y-1])
+	blockLowerRight := blocks.Get(gameMap[s.X+1][s.Y+1])
+	upperBlock := blocks.Get(gameMap[s.X][s.Y-1])
+	blockLeft := blocks.Get(gameMap[s.X-1][s.Y])
+	blockLowerLeft := blocks.Get(gameMap[s.X-1][s.Y+1])
+	lowerBlock := blocks.Get(gameMap[s.X][s.Y+1])
+	blockUpperLeft := blocks.Get(gameMap[s.X-1][s.Y-1])
+
 	// Simple horizontal movement
 	if s.XDirection > 0 {
 		// Move right
-		if gameMap[s.X+1][s.Y] == 0 { //if no wall on the right
+		if !blockRirght.IsSolid { //if no wall on the right
 			s.Move(1, 0)
 			s.XDirection--
-		} else if gameMap[s.X+1][s.Y+1] == 0 && gameMap[s.X][s.Y+1] == 0 { // if no wall on the down and right
+		} else if !blockLowerRight.IsSolid && !lowerBlock.IsSolid { // if no wall on the down and right (bottom-right diagonal)
 			s.Move(1, 1)
 			s.XDirection--
-		} else if gameMap[s.X+1][s.Y-1] == 0 && gameMap[s.X][s.Y-1] == 0 { // if no wall on the up and right (top-right diagonal)
+		} else if !blockUpperRight.IsSolid && !upperBlock.IsSolid { // if no wall on the up and right (top-right diagonal)
 			s.Move(1, -1)
 			s.XDirection--
 		}
 	} else if s.XDirection < 0 {
 		// Move left
-		if gameMap[s.X-1][s.Y] == 0 { // if no wall on the left
+		if !blockLeft.IsSolid { // if no wall on the left
 			s.Move(-1, 0)
 			s.XDirection++
-		} else if gameMap[s.X-1][s.Y+1] == 0 && gameMap[s.X][s.Y+1] == 0 { // if no wall on the left and down
+		} else if !blockLowerLeft.IsSolid && !lowerBlock.IsSolid { // if no wall on the left and down
 			s.Move(-1, 1)
 			s.XDirection++
-		} else if gameMap[s.X-1][s.Y-1] == 0 && gameMap[s.X][s.Y-1] == 0 { // if no wall on the left and up
+		} else if !blockUpperLeft.IsSolid && !upperBlock.IsSolid { // if no wall on the left and up
 			s.Move(-1, -1)
 			s.XDirection++
 		}

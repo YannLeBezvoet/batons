@@ -23,10 +23,13 @@ const (
 
 func main() {
 	menuAction := menu.MenuAction{Selected: 0, Action: menu.None}
+	blocks.Init()
+
 	gameData := game.GameStruct{
-		XCamera: 0,
-		YCamera: 0,
-		GameMap: make(map[int]map[int]int),
+		XCamera:       0,
+		YCamera:       0,
+		GameMap:       make(map[int]map[int]int),
+		SelectedBlock: blocks.Stone,
 	}
 	optionsAction := options.OptionsAction{Selected: 0, Action: options.None, Waiting: false}
 	screen, err := tcell.NewScreen()
@@ -44,7 +47,6 @@ func main() {
 		log.Fatalf("%+v", err)
 	}
 	screen.EnableMouse()
-	blocks.Init()
 
 	for {
 		start := time.Now()
