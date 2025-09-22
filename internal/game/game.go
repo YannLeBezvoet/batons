@@ -34,11 +34,7 @@ func Game(screen tcell.Screen, gameData GameStruct) {
 func DrawMap(screen tcell.Screen, gameData GameStruct) {
 	for x, y := range gameData.GameMap {
 		for yKey, val := range y {
-			block, ok := blocks.Get(val)
-			if !ok {
-				screen.Fini()
-				panic("Block not found: " + strconv.Itoa(val))
-			}
+			block := blocks.Get(val)
 			style := tcell.StyleDefault.Foreground(block.Color).Background(tcell.ColorBlack)
 			screen.SetContent(-gameData.XCamera+x, -gameData.YCamera+yKey, block.Char, nil, style)
 		}
@@ -57,11 +53,7 @@ func DrawSelectionBox(screen tcell.Screen, gameData GameStruct) {
 	const boxBottomY = 3
 	const blockOffsetX = 3
 	const blockPosY = 1
-	block, ok := blocks.Get(gameData.SelectedBlock)
-	if !ok {
-		screen.Fini()
-		panic("Block not found: " + strconv.Itoa(gameData.SelectedBlock))
-	}
+	block := blocks.Get(gameData.SelectedBlock)
 	style := tcell.StyleDefault.Foreground(tcell.ColorWhite).Background(tcell.ColorBlack)
 	blockStyle := tcell.StyleDefault.Foreground(block.Color).Background(tcell.ColorBlack)
 	x, _ := screen.Size()
@@ -71,10 +63,6 @@ func DrawSelectionBox(screen tcell.Screen, gameData GameStruct) {
 	}
 	for i := 0; i < boxBottomY; i++ {
 		screen.SetContent(x-selectionBoxSize, i, '#', nil, style)
-	}
-	if !ok {
-		screen.Fini()
-		panic("Block not found: " + strconv.Itoa(gameData.SelectedBlock))
 	}
 	screen.SetContent(blockPosX, blockPosY, block.Char, nil, blockStyle)
 }

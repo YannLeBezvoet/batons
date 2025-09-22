@@ -11,9 +11,12 @@ func Register(b Block) {
 }
 
 // Get retourne un bloc par son ID
-func Get(id int) (Block, bool) {
+func Get(id int) Block {
 	b, ok := registry[id]
-	return b, ok
+	if !ok {
+		return registry[Air] // air
+	}
+	return b
 }
 
 func Init() {
