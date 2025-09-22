@@ -3,6 +3,7 @@ package blocks
 import "github.com/gdamore/tcell/v2"
 
 var registry = map[int]Block{}
+var RegisterSize int
 
 // Register ajoute un bloc au registre
 func Register(b Block) {
@@ -20,4 +21,5 @@ func Init() {
 	Register(Block{ID: Stone, Char: '█', Color: tcell.ColorWhite, IsSolid: true}) // stone
 	Register(Block{ID: Dirt, Char: '▒', Color: tcell.ColorBrown, IsSolid: true})  // dirt
 	Register(Block{ID: Grass, Char: '▓', Color: tcell.ColorGreen, IsSolid: true}) // grass
+	RegisterSize = len(registry)
 }

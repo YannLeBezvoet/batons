@@ -28,7 +28,7 @@ func Game(screen tcell.Screen, gameData GameStruct) {
 	DrawStickmen(screen, gameData)
 
 	// Affiche la box de sélection
-	DrawSelectionBox(screen)
+	DrawSelectionBox(screen, gameData)
 }
 
 func DrawMap(screen tcell.Screen, gameData GameStruct) {
@@ -52,13 +52,18 @@ func DrawStickmen(screen tcell.Screen, gameData GameStruct) {
 	}
 }
 
-func DrawSelectionBox(screen tcell.Screen) {
+func DrawSelectionBox(screen tcell.Screen, gameData GameStruct) {
 	const selectionBoxSize = 6
 	const boxBottomY = 3
 	const blockOffsetX = 3
 	const blockPosY = 1
-
+	block, ok := blocks.Get(gameData.SelectedBlock)
+	if !ok {
+		screen.Fini()
+		panic("Block not found: " + strconv.Itoa(gameData.SelectedBlock))
+	}
 	style := tcell.StyleDefault.Foreground(tcell.ColorWhite).Background(tcell.ColorBlack)
+	blockStyle := tcell.StyleDefault.Foreground(block.Color).Background(tcell.ColorBlack)
 	x, _ := screen.Size()
 	blockPosX := x - blockOffsetX
 	for i := x - selectionBoxSize; i < x; i++ {
@@ -67,5 +72,9 @@ func DrawSelectionBox(screen tcell.Screen) {
 	for i := 0; i < boxBottomY; i++ {
 		screen.SetContent(x-selectionBoxSize, i, '#', nil, style)
 	}
-	screen.SetContent(blockPosX, blockPosY, '█', nil, style)
+	if !ok {
+		screen.Fini()
+		panic("Block not found: " + strconv.Itoa(gameData.SelectedBlock))
+	}
+	screen.SetContent(blockPosX, blockPosY, block.Char, nil, blockStyle)
 }
