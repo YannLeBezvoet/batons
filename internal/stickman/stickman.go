@@ -15,15 +15,18 @@ type Stickman struct {
 	TimeSinceSpawn    time.Time
 }
 
-func NewStickman(x, y int) *Stickman {
-	return &Stickman{
-		X:                 x,
-		Y:                 y,
-		Health:            100,
-		XDirection:        0,
-		TakeADecisionTime: time.Now(),
-		TimeSinceSpawn:    time.Now(),
+func NewStickman(x, y int, gameMap map[int]map[int]int) *Stickman {
+	if gameMap[x] == nil || !blocks.Get(gameMap[x][y]).IsSolid {
+		return &Stickman{
+			X:                 x,
+			Y:                 y,
+			Health:            100,
+			XDirection:        0,
+			TakeADecisionTime: time.Now(),
+			TimeSinceSpawn:    time.Now(),
+		}
 	}
+	return nil
 }
 
 func (s *Stickman) Move(dx, dy int) {

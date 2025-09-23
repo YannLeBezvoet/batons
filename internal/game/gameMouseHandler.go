@@ -24,8 +24,10 @@ func GameMouseHandler(mouseEvent tcell.EventMouse, gameData *GameStruct, config 
 
 	case tcell.Button2: // Right click
 		if utils.CheckDelay(gameData.LastRightClickTime, delay) {
-			newStickman := stickman.NewStickman(x, y)
-			gameData.StickManSlice = append(gameData.StickManSlice, newStickman)
+			newStickman := stickman.NewStickman(x, y, gameData.GameMap)
+			if newStickman != nil {
+				gameData.StickManSlice = append(gameData.StickManSlice, newStickman)
+			}
 			gameData.LastRightClickTime = time.Now()
 		}
 	case tcell.WheelUp: // Scroll up
